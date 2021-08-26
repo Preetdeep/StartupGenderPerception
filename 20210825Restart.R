@@ -283,4 +283,16 @@ Young Male, Female Mid Age
 #What to say when talking to investors.
 
 
+# Date --------------------------------------------------------------------
+##They seem to be taking a different amount of time also in filling the responses.
+mergedtest2<-mergedtest
+mergedtest2$Time1<-parse_date_time(substr(mergedtest2$ResponseTime1,14,24),"%I:%M:%S %p")
+mergedtest2$Time2<-parse_date_time(substr(mergedtest2$ResponseTime2,14,24),"%I:%M:%S %p")
+mergedtest2$TimeDiff<-mergedtest2$Time2-mergedtest2$Time1
+
+mean(mergedtest2$TimeDiff)
+mergedtest2%>%group_by(Gender)%>%summarise(timediff=mean(TimeDiff))
+gendernametimediff<-mergedtest2%>%group_by(Gender,Name)%>%summarise(timediff=mean(TimeDiff),n=length(TimeDiff))
+
+##WE see that there is a difference. 
 
