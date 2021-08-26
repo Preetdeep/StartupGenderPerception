@@ -267,9 +267,20 @@ for (i in (1:length(unique(mergedtest$Name)))){
 
 colnames(resultframe1)<-c("Name",unique(mergedtest$Name))
 
+resultsframe2<-data.frame()
+for(i in 1:16){
+
+  r1<-filter(resultframe1,resultframe1[,i]<0.1)
+  resultsframe2[i,1]<-colnames(resultframe1)[i]
+  resultsframe2[i,2]<-length(r1[,2])
+}
 ##Results
 Male Young Vs Male IIT IIM Abandon : 0.05
-Female IIT IIM: Multiple 
+Female IIT IIM: Multiple : 10 ish
+Young Male, Female Mid Age
+
+#Cost of Failure (Much worse for females, abandon also)
+#What to say when talking to investors.
 
 
 
