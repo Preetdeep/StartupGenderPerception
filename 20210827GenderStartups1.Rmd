@@ -107,10 +107,10 @@ mergedtest<-merge(mergedtest,MaleMidAge, all.x=TRUE, all.y=TRUE)
     We find no statistically significant difference between the success probability for males and females across education levels. In fact success is more likely for female cofounders. The mean value of success for a startup founded by school educated females at `r round(mean(Female12th$Success),2)` is lower than that of IIT-IIM educated females at `r round(mean(FemaleIITIIM$Success),2)`. This is at a p-value of `r round(t.test(FemaleIITIIM$Success,Female12th$Success)$p.value,2)`  making it statistically significant.
     
   \subsection{Some thoughts}
-			We are trying to see why women based startups are so few. \footnote{CURRENT DATA: Where all, how many, sectors etc.}. This could be due to lack of capital, lack of mentorship or lack of business acumen. Through this study we wish to identify the bias towards or against women-led startups by studying perception of such startups by general population. 
+We are trying to see why women based startups are so few. \footnote{CURRENT DATA: Where all, how many, sectors etc.}. This could be due to lack of capital, lack of mentorship or lack of business acumen. Through this study we wish to identify the bias towards or against women-led startups by studying perception of such startups by general population. 
 	
-		\subsection{See if this is usable}
-		Vision 2025 for Startup India includes not only 50000 startups, but also a higher representation of women. At present less than 15\% of all startups are women founded\footnote{NEED SOURCE} , and less than half the recognised startups (20k) have at least one woman director\footnote{NEED SOURCE} . We recently completed an RFP for on-boarding partners in each zone in the country (there are five zones) for training women entrepreneurs. We also want to ensure that at least half of our beneficiaries are women led startups. This calls for a major capacity building exercise and in order to understand various areas of intervention, we would like to conduct online surveys with people regarding their perception of women led startups vis a vis others. 
+\subsection{See if this is usable}
+Vision 2025 for Startup India includes not only 50000 startups, but also a higher representation of women. At present less than 15\% of all startups are women founded\footnote{NEED SOURCE} , and less than half the recognised startups (20k) have at least one woman director\footnote{NEED SOURCE} . We recently completed an RFP for on-boarding partners in each zone in the country (there are five zones) for training women entrepreneurs. We also want to ensure that at least half of our beneficiaries are women led startups. This calls for a major capacity building exercise and in order to understand various areas of intervention, we would like to conduct online surveys with people regarding their perception of women led startups vis a vis others. 
 		
 		Perception plays a very important role in the startup journey. If people, in general, feel that a company will not survive/succeed, they will neither invest in it, nor would they want to rely on them as suppliers or buyers. In the absence of long term business relations, the bias becomes self-fulfilling. Similarly, if women led startups are perceived to have a higher chance of abandoning, then engineers are less likely to join that firm. All these decisions have real world impact. 
 		Through these surveys we would want to gauge perception of women led startups under different situations. 
@@ -135,39 +135,40 @@ mergedtest<-merge(mergedtest,MaleMidAge, all.x=TRUE, all.y=TRUE)
 \section{Method}
 		We use a (What is that thing, it is not difference in difference. It is to see the difference in how people react to one group versus another).
 		Each set of participants is given only one case. Each case involves basic details about the startup. These details are consistent across all groups. Each group is given details about the founders. This varies across groups. Each group is given only one set of details about the founders. Based on the data, they are asked to demarcate the probability of success, probability of failure and probability of abandonment of the startup. Each of these is taken in discrete probabilities from 0 to 100 in intervals of 10.
-			\subsection{Variables}
+	
+	\subsection{Variables}
+	TODO: CORRECT THIS LIST BECAUSE WEHAVE IMPORTED THIS FROM LATEX.
 		
-		We modify the following details about the founders \begin{itemize}
-			\item Education \begin{itemize}
-				\item Low Education
-				\item Technical Education
-				\item Management Education
-			\end{itemize}
-			\item Government Connect\begin{itemize}
-				\item Family in government service
-				\item Ex-government service
-			\end{itemize}
-			\item Age\begin{itemize}
-				\item Young
-				\item Mid-age
-				\item Old
-			\end{itemize}
-			\item Region \begin{itemize}
-				\item Metro city
-				\item Tier II City
-			\end{itemize}
-			\item Startup Experience\begin{itemize}
-				\item Founder\begin{itemize}
-					\item Successful startup
-					\item Failed startup
-				\end{itemize}
-				\item Employee \begin{itemize}
-					\item Successful startup
-					\item Failed startup
-				\end{itemize}
-			\end{itemize}
+We modify the following details about the founders 
+*	 Education 
+    *	Low Education
+    *	Technical Education
+    *	Management Education
+
+*	 Government Connect
+    *		 Family in government service
+    *		 Ex-government service
+
+*	 Age
+	  *	 Young
+	  *	 Mid-age
+	  *	 Old
+
+*	 Region 
+	*	 Metro city
+	*	 Tier II City
+
+*	 Startup Experience
+	  *	 Founder
+		*	 Successful startup
+		*	 Failed startup
+		
+	*	 Employee 
+		*	 Successful startup
+		*	 Failed startup
+
 			
-		\end{itemize}
+
 		
 		For each variable we see whether there is a difference in how male and female co-founders possessing the same traits are perceived. Table \ref{tab:varops} shows how each variable is operationalised in the study. To study the effect of items mentioned in column 1, the participants were told the items mentioned in column 2 about the founders. The table also shows the subcategories of each variable that is studied.
 		
