@@ -1,6 +1,7 @@
-rm(list=ls())
+#rm(list=ls())
 library(dplyr)
 library(stargazer)
+library(lubridate)
 
 
 # Setup -------------------------------------------------------------------
@@ -294,5 +295,37 @@ mean(mergedtest2$TimeDiff)
 mergedtest2%>%group_by(Gender)%>%summarise(timediff=mean(TimeDiff))
 gendernametimediff<-mergedtest2%>%group_by(Gender,Name)%>%summarise(timediff=mean(TimeDiff),n=length(TimeDiff))
 
-##WE see that there is a difference. 
+##WE see that there is a difference. .
+
+## For each group, we can see 
+## 1. Whether combined time is different
+## 2. Whether there is a diff between Males and Females
+
+resultframe3<-data.frame()
+resultframe4<-data.frame()
+for (i in (1:length(unique(mergedtest2$Name)))){
+  for (j in 1:length(unique(mergedtest2$Name))){
+    f1<-filter(mergedtest2,Name==unique(mergedtest2$Name)[i])
+    f2<-filter(mergedtest2,Name==unique(mergedtest2$Name)[j])
+    resultframe3[i,1]<-unique(mergedtest2$Name)[i]
+    resultframe3[i,j+1]<-t.test(f1$TimeDiff,f2$TimeDiff)$p.value
+  }
+  f3<-filter(f1,Gender=="Female")
+  f4<-filter(f1,Gender=="Male")
+  resultframe4[i,1]<-unique(mergedtest$Name)[i]
+  resultframe4[i,2]<-t.test(f3$TimeDiff,f4$TimeDiff)$p.value
+}
+colnames(resultframe3)<-c("Names",unique(mergedtest2$Name))
+#colnames(resultframe4)<-c("Names",unique(mergedtest2$Name))
+
+
+##TEst Male Young Male IIT
+f1<-filter(mergedtest2,Name=="MaleYoung")
+f2<-filter(mergedtest2,Name=="FemaleFailedFounder")
+t.test(f1$TimeDiff,f2$TimeDiff)$p.value
+
+f3<-filter(f2,Gender=="Female")
+f4<-filter(f2,Gender=="Male")
+resultframe4[i,1]<-unique(mergedtest$Name)[i]
+resultframe4[i,2]<-t.test(f3$TimeDiff,f4$TimeDiff)$p.value
 

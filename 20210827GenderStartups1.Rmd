@@ -1,0 +1,478 @@
+---
+title: "Perception of Gender in Startups"
+author: "Dr Preet Deep Singh"
+affiliation: "Invest India"
+date: "27/08/2021"
+output: 
+  pdf_document: 
+    toc: no
+    fig_caption: yes
+    number_sections: yes
+    keep_tex: yes
+abstract: "I look at the perception of founders of startups. I study the effect of age, education, gender, and background. I find important differences between gender and background of the founders as well as the time taken to respond for some cases in case of female and male respondents. Perception differences across gender(negative), age(positive), region(positive), and startup experience(postiive) are analysed based on the traits of the founders. This has implication for investors, employees and customers. We make policy recommendations with regard to sensitization and encouraging gender diversity."
+documentclass: "article"
+---
+
+
+
+```{r setup, echo=FALSE, , message=FALSE, tidy=TRUE}
+library(dplyr)
+library(stargazer)
+library(lubridate)
+library(formatR)
+
+files<-list.files (pattern = "csv$")
+#Load all files
+FailedFounder<-read.csv("FailedFounder.csv")
+Female12th<-read.csv("Female12th.csv")
+FemaleFailedFounder<-read.csv("FemaleFailedFounder.csv")
+FemaleIITIIM<-read.csv("FemaleIITIIM.csv")
+FemaleMidAge<-read.csv("FemaleMidAge.csv")
+FemaleOld<-read.csv("FemaleOld.csv")
+FemaleYoung<-read.csv("FemaleYoung.csv")
+GovtFather<-read.csv("GovtFather.csv")
+Male12th<-read.csv("Male12th.csv")
+MaleFailedFounder<-read.csv("MaleFailedFounder.csv")
+MaleIITIIM<-read.csv("MaleIITIIM.csv")
+MaleMidAge<-read.csv("MaleMidAge.csv")
+MaleOld<-read.csv("MaleOld.csv")
+MaleYoung<-read.csv("MaleYoung.csv")
+SuccessfulEmployee<-read.csv("SUccessfulEmployee.csv")
+SuccessfulFounder<-read.csv("SuccessfulFounder.csv")
+#Rename ColumnNames
+colnames(FailedFounder) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(Female12th) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(FemaleIITIIM) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(FemaleMidAge) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(FemaleOld) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(FemaleYoung) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(GovtFather) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(Male12th) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(MaleFailedFounder) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(FemaleFailedFounder) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(MaleIITIIM) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(MaleMidAge) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(MaleYoung) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(MaleOld) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(SuccessfulEmployee)<-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(SuccessfulFounder)<-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+
+
+
+FailedFounder$Name<-"FailedFounder"
+SuccessfulEmployee$Name<-"SuccessfulEmployee"
+SuccessfulFounder$Name<-"SuccessfulFounder"
+FemaleFailedFounder$Name<-"FemaleFailedFounder"
+MaleFailedFounder$Name<-"MaleFailedFounder"
+GovtFather$Name<-"GovtFather"
+
+MaleYoung$Name<-"MaleYoung"
+FemaleYoung$Name<-"FemaleYoung"
+FemaleMidAge$Name<-"FemaleMidAge"
+MaleMidAge$Name<-"MaleMidAge"
+MaleOld$Name<-"MaleOld"
+FemaleOld$Name<-"FemaleOld"
+
+Female12th$Name<-"Female12th"
+Male12th$Name<-"Male12th"
+MaleIITIIM$Name<-"MaleIITIIM"
+FemaleIITIIM$Name<-"FemaleIITIIM"
+
+
+mergedtest<-merge(GovtFather,FemaleFailedFounder, all.x=TRUE, all.y=TRUE) #This will work if there is a column with the name of the file. 
+mergedtest<-merge(mergedtest,FailedFounder, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,SuccessfulEmployee, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,SuccessfulFounder, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,MaleFailedFounder, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,FemaleIITIIM, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,MaleIITIIM, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,Male12th, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,Female12th, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,FemaleYoung, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,FemaleMidAge, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,FemaleOld, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,MaleOld, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,MaleYoung, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,MaleMidAge, all.x=TRUE, all.y=TRUE)
+
+```
+
+
+
+\section{Introduction}
+  \subsection{What we do}
+    Startups are not the same as traditional businesses. They differ in method, founder demographics, scale-up and most importantly the use of technology. Recent success stories have lent social acceptance to 'startup culture'. Repeated appeals by the Hon'ble Prime Minister have ensured a paradigm shift in how startups are perceived. \footnote{More about Startup India Programme}.
+    We look at how the gender and background of founders impacts the perceived probability of success of a startup. We use different cases to look at the difference between male and female founders, at varying education levels (12th, IIT-IIM) and background (Successful startup, Failed Startup) and age (20,30,40 years).
+  \subsection{What we find}
+    We find no statistically significant difference between the success probability for males and females across education levels. In fact success is more likely for female cofounders. The mean value of success for a startup founded by school educated females at `r round(mean(Female12th$Success),2)` is lower than that of IIT-IIM educated females at `r round(mean(FemaleIITIIM$Success),2)`. This is at a p-value of `r round(t.test(FemaleIITIIM$Success,Female12th$Success)$p.value,2)`  making it statistically significant.
+    
+  \subsection{Some thoughts}
+			We are trying to see why women based startups are so few. \footnote{CURRENT DATA: Where all, how many, sectors etc.}. This could be due to lack of capital, lack of mentorship or lack of business acumen. Through this study we wish to identify the bias towards or against women-led startups by studying perception of such startups by general population. 
+	
+		\subsection{See if this is usable}
+		Vision 2025 for Startup India includes not only 50000 startups, but also a higher representation of women. At present less than 15\% of all startups are women founded\footnote{NEED SOURCE} , and less than half the recognised startups (20k) have at least one woman director\footnote{NEED SOURCE} . We recently completed an RFP for on-boarding partners in each zone in the country (there are five zones) for training women entrepreneurs. We also want to ensure that at least half of our beneficiaries are women led startups. This calls for a major capacity building exercise and in order to understand various areas of intervention, we would like to conduct online surveys with people regarding their perception of women led startups vis a vis others. 
+		
+		Perception plays a very important role in the startup journey. If people, in general, feel that a company will not survive/succeed, they will neither invest in it, nor would they want to rely on them as suppliers or buyers. In the absence of long term business relations, the bias becomes self-fulfilling. Similarly, if women led startups are perceived to have a higher chance of abandoning, then engineers are less likely to join that firm. All these decisions have real world impact. 
+		Through these surveys we would want to gauge perception of women led startups under different situations. 
+    
+  \subsection{Why it is important}
+  
+  Startups are not the same as traditional businesses.
+    Perception is important. Customers, investors, employees.
+  
+\section{Literature}
+		\subsection{Importance of perception}
+		Perception of a business is important. 
+		Suppliers rely on this.
+		Bankers rely on this. Hunch based.
+		Angel Investors rely on them.
+		Good employees rely on this.
+	\subsection{Perception of Founders}
+			Perception of them is the perception of business. 
+	\subsection{Perception in case of startups}
+			In case there is some literature available for this.
+	
+\section{Method}
+		We use a (What is that thing, it is not difference in difference. It is to see the difference in how people react to one group versus another).
+		Each set of participants is given only one case. Each case involves basic details about the startup. These details are consistent across all groups. Each group is given details about the founders. This varies across groups. Each group is given only one set of details about the founders. Based on the data, they are asked to demarcate the probability of success, probability of failure and probability of abandonment of the startup. Each of these is taken in discrete probabilities from 0 to 100 in intervals of 10.
+			\subsection{Variables}
+		
+		We modify the following details about the founders \begin{itemize}
+			\item Education \begin{itemize}
+				\item Low Education
+				\item Technical Education
+				\item Management Education
+			\end{itemize}
+			\item Government Connect\begin{itemize}
+				\item Family in government service
+				\item Ex-government service
+			\end{itemize}
+			\item Age\begin{itemize}
+				\item Young
+				\item Mid-age
+				\item Old
+			\end{itemize}
+			\item Region \begin{itemize}
+				\item Metro city
+				\item Tier II City
+			\end{itemize}
+			\item Startup Experience\begin{itemize}
+				\item Founder\begin{itemize}
+					\item Successful startup
+					\item Failed startup
+				\end{itemize}
+				\item Employee \begin{itemize}
+					\item Successful startup
+					\item Failed startup
+				\end{itemize}
+			\end{itemize}
+			
+		\end{itemize}
+		
+		For each variable we see whether there is a difference in how male and female co-founders possessing the same traits are perceived. Table \ref{tab:varops} shows how each variable is operationalised in the study. To study the effect of items mentioned in column 1, the participants were told the items mentioned in column 2 about the founders. The table also shows the subcategories of each variable that is studied.
+		
+		
+	\subsubsection{Education}
+			Education should mitigate the differences of gender, at least in terms of ability. If someone is technically qualified, then their gender should not be of concern. Therefore we expect no difference between Male and Female co-founders who are technically qualified. Similarly, management education would obliterate any disparity in the ability of male and female founders. Since management education in our study is proxied with a degree from IIMs which offer only post graduate courses, it indicates a higher level of education. In case we do not find any differences, we would be able to say that education, technical or management does extinguish perceived differences between males and females.
+			
+			
+	\subsubsection{Age}
+			While experience is considered as a major requirement in terms of employment, it may not be so for startups as we have seen success stories of college dropouts such as Bill Gates, Ritesh Agrawal, Steve Jobs and many other\footnote{FIND AN ARTICLE ABOUT THIS}. However, the spirit of entrepreneurship is not very strong in India. The education system therein does not lead to employability or maturity of the students as much as international curriculum. This is ingrained in people. Youth might be associated with recklessness and immaturity or inability to perceive risk\footnote{FIND REFERENCES}.
+			
+			We expect young startups to be perceived negatively. At 22,23, it is unlikely that the founders have had any relevant work experience. At 42, one might be perceived as more serious because one has a family and loans to take care of. Also, even if one started at a lower salary, over the course of two decades one might be earning more. If someone is willing to forego that amount, it would signal seriousness as the opportunity cost is much higher. We expect a similar effect on mid-age founder run startups but to a lesser extent.
+			
+			
+	\subsection{Region}
+			Bengaluru, Karnataka was house to over 45\% of the startup deals in the country in 2018\footnote{FIND SOURCE}.
+			Being from a city that saw the maximum percentage of deals for startups, it is possible that the effect of the city and its success stories rubs off on the startup. We are comparing this to Bhopal. Bhopal, Madhya Pradesh is a known Tier II city that has a small startup ecosystem. While innovation can come from any place, success is anticipated in certain corners. Startups in bigger cities are perceived to have more opportunities and more exposure. They can get access to better mentorship, funding, incubation and a bigger customer base. Perception of startups located in a metro city such as Bengaluru would be favourable as compared to one in Bhopal.
+			
+			
+			
+	\subsection{Government Connect}
+			Is it just because one understands how the government works, and where to look for for relevant stuff or that government connects are required to ease the path. In India, 'Ease of doing business' rankings are a recent phenomenon. The old days of licence Raj and government interference is considered a major hurdle. Apart from this compliance burden is a problem for small and medium sized units. In such a scenario having government connects is important. The difference in the two variables being knowledge and the perceived ability to pull strings. We expect there to be no difference between the two cases. In case ex-government is higher, it would imply that the knowledge gained into the working of the government is vary valuable for a startup.
+			
+			
+			
+	\subsection{Startup Experience}
+		
+		Startups are different from traditional businesses. Most of the times they have to chart their own course. If someone has relevant experience in navigating the journey, it would be helpful. We expect startups founded by people who have founded entities in the past to be better perceived than startups that do not have founders with entrepreneurial experience. Furthermore, if someone has entrepreneurial experience, they are better equipped to deal with risk and the stress that comes with the role. As an employee the stress and risks are much lower. We expect to see better perception for founders than for employees and better perception for successful startups than for failed startups	
+			
+			
+
+\section{Data Summary}
+We use anonymously filled surveys from over 1000 participants. The break up of these participants is given in Table \ref{tab:respondents1}.
+   \subsection{Data Summary}
+  We look at the summary of responses for each case.
+  We have three metrics that we measure across all cases. Our metrics are Probability of Success, Probability of Funding and Probability of Abandonment. 
+    \subsection{Probability of Success}
+    We first look at the summary of responses when we change education of the founders. We see these effects for male as well as female founders.
+    
+    
+```{r summary1,results='asis',echo=FALSE, message=FALSE}
+library(stargazer)
+stargazer(FemaleIITIIM, title = "This tables shows the summary of responses in the case where the startup founders were females and studied from IIT and IIM.", header=FALSE)
+stargazer(MaleIITIIM, title = "This tables shows the summary of responses in the case where the startup founders were male and studied from IIT and IIM." , header=FALSE)
+stargazer(Male12th, title = "This tables shows the summary of responses in the case where the startup founders were males who had only completed school." , header=FALSE)
+stargazer(Female12th, title = "This tables shows the summary of responses in the case where the startup founders were females who had only completed school." , header=FALSE)
+
+```
+In figure \ref{boxsuccess12th} We look at how people perceive the probability of success for a startup founded by males versus that founded by females, when they have only completed schooling. While the mean value of success for a startup founded by school educated females at `r round(mean(Female12th$Success),2)` is higher than that of males at the same educated level at `r round(mean(Male12th$Success),2)`   , the difference is not statistically significant at a p-value of `r round(t.test(Female12th$Success,Male12th$Success)$p.value,2)`.
+
+
+```{r first, echo=FALSE,fig=TRUE, fig.width=4,fig.height=4}
+library(ggplot2)
+vis12<-ggplot(mergedtest[mergedtest$Name=="Female12th" | mergedtest$Name=="Male12th",],aes(Name,Success))
+vis12<-vis12+geom_boxplot()
+vis12<-vis12+labs(title ="Boxplot of estimated success probability.",x="Category",y="Probability of Success")
+print(vis12)
+
+#\caption{This box plot shows the probability of success as estimated for male and female founders educated till class 12.}
+#\label{boxsuccess12th}
+#\end{figure}
+###DO SOMETHING ABOUT THESE
+```
+
+
+In figure \ref{boxsuccessIITIIM} We look at how people perceive the probability of success for a startup founded by males versus that founded by females, when they have studied at premier institutes at undergrad as well as post graduate level. While the mean value of success for a startup founded by IIT-IIM educated females at `r round(mean(FemaleIITIIM$Success),2)` is higher than that of males at the same educated level at `r round(mean(MaleIITIIM$Success),2)`, the difference is not statistically significant at a p-value of `r round(t.test(FemaleIITIIM$Success,MaleIITIIM$Success)$p.value,2)`.
+
+It is worth noting that in both cases, the mean value of probability of success is surprisingly higher for female led statups in both cases.
+
+
+```{r second, echo=FALSE,fig=TRUE, fig.width=4,fig.height=4 }
+visIITIIM<-ggplot(mergedtest[mergedtest$Name=="FemaleIITIIM" | mergedtest$Name=="MaleIITIIM",],aes(Name,Success))
+visIITIIM<-visIITIIM+geom_boxplot()
+visIITIIM<-visIITIIM+labs(title ="Boxplot of estimated success probability.",x="Category",y="Probability of Success")
+print(visIITIIM)
+#\caption{This box plot shows the probablity of success as estimated for male and female founders educated at IIT and IIM.}
+#\label{boxsuccessIITIIM}
+#\end{figure}
+
+```
+
+
+
+```{r third, echo=FALSE,fig=TRUE, fig.width=4,fig.height=4}
+visalledu<-ggplot(mergedtest[mergedtest$Name=="FemaleIITIIM" | mergedtest$Name=="MaleIITIIM"| mergedtest$Name=="Female12th" | mergedtest$Name=="Male12th",],aes(Name,Success))
+visalledu<-visalledu+geom_boxplot()
+visalledu<-visalledu+labs(title ="Boxplot of estimated success probability.",x="Category",y="Probability of Success")
+print(visalledu)
+#\caption{This box plot shows the probablity of success as estimated across males and females and different education levels}
+#\label{boxsuccessalleducation}
+#\end{figure}
+```
+
+
+The mean value of success for a startup founded by school educated females at `r round(mean(Female12th$Success),2)` is lower than that of IIT-IIM educated females at `r round(mean(FemaleIITIIM$Success),2)`. This is at a p-value of `r round(t.test(FemaleIITIIM$Success,Female12th$Success)$p.value,2)` making it statistically significant. 
+The mean value of success for a startup founded by school educated males at `r round(mean(Female12th$Success),2)` is lower than that of IIT-IIM educated females at `r round(mean(MaleIITIIM$Success),2)`. This is at a p-value of `r round(t.test(MaleIITIIM$Success,Male12th$Success)$p.value,2)` making it statistically insignificant.
+
+This means the value of education is higher for females as compared to that in the case of males. Educated females are perceived to be more likely to find success in their startup whereas the same effect is not found for males.
+
+
+    %%%%%%%%%%%%%%%%%%%%%%Funded%%%%%%%%%%%%%
+
+  \subsection{Probability of Getting Funded}
+
+In figure \ref{boxfunding12th} We look at how people perceive the probability of success for a startup founded by males versus that founded by females, when they have only completed schooling. While the mean value of success for a startup founded by school educated females at `r round(mean(Female12th$Funding),2)` is higher than that of males at the same educated level at `r round(mean(Male12th$Funding,na.rm=TRUE),2)`, the difference is not statistically significant at a p-value of `r round(t.test(Female12th$Funding,Male12th$Funding)$p.value,2)`.
+```{r fourth, echo=FALSE,fig=TRUE, fig.width=4,fig.height=4}
+library(ggplot2)
+vis12<-ggplot(mergedtest[mergedtest$Name=="Female12th" | mergedtest$Name=="Male12th",],aes(Name,Funding))
+vis12<-vis12+geom_boxplot()
+vis12<-vis12+labs(title ="Boxplot of estimated funding probability.",x="Category",y="Probability of Funding")
+print(vis12)
+
+
+
+#\caption{This box plot shows the probability of funding as estimated for male and female founders educated till class 12.}
+#\label{boxfunding12th}
+#\end{figure}
+```
+
+
+
+In figure \ref{boxfundingIITIIM} We look at how people perceive the probability of funding for a startup founded by males versus that founded by females, when they have studied at premier institutes at undergrad as well as post graduate level. While the mean value of funding for a startup founded by IIT-IIM educated females at `r round(mean(FemaleIITIIM$Funding,na.rm=TRUE),2)` is higher than that of males at the same educated level at `r round(mean(MaleIITIIM$Funding,na.rm=TRUE),2)`, the difference is not statistically significant at a p-value of `r round(t.test(FemaleIITIIM$Funding,MaleIITIIM$Funding)$p.value,2)`.
+
+It is surprising to see that the probability of funding is higher for female founded startups irrespective of level of education of the founders.
+
+```{r fifth, echo=FALSE,fig=TRUE, fig.width=4,fig.height=4}
+visIITIIM<-ggplot(mergedtest[mergedtest$Name=="FemaleIITIIM" | mergedtest$Name=="MaleIITIIM",],aes(Name,Funding))
+visIITIIM<-visIITIIM+geom_boxplot()
+visIITIIM<-visIITIIM+labs(title ="Boxplot of estimated funding probability.",x="Category",y="Probability of Success")
+print(visIITIIM)
+
+
+#\caption{This box plot shows the probablity of funding as estimated for male and female founders educated at IIT and IIM.}
+#\label{boxfundingIITIIM}
+#\end{figure}
+```
+
+
+```{r sixth, echo=FALSE,fig=TRUE, fig.width=4,fig.height=4}
+visalledu<-ggplot(mergedtest[mergedtest$Name=="FemaleIITIIM" | mergedtest$Name=="MaleIITIIM"| mergedtest$Name=="Female12th" | mergedtest$Name=="Male12th",],aes(Name,Funding))
+visalledu<-visalledu+geom_boxplot()
+visalledu<-visalledu+labs(title ="Boxplot of estimated funding probability.",x="Category",y="Probability of Funding")
+print(visalledu)
+
+#\caption{This box plot shows the probablity of funding as estimated across males and females and different education levels}
+#\label{boxfundingalleducation}
+#\end{figure}
+```
+
+
+The mean value of success for a startup founded by school educated females at `r round(mean(Female12th$Funding,na.rm=TRUE),2)` is marginally lower than that of IIT-IIM educated females at `r round(mean(FemaleIITIIM$Funding,na.rm=TRUE),2)`. This is at a p-value of `r round(t.test(FemaleIITIIM$Funding,Female12th$Funding)$p.value,2)` making it statistically insignificant. 
+
+The mean probability of funding for a startup founded by school educated males at `r round(mean(Male12th$Funding,na.rm=TRUE),2)` is the same as that of IIT-IIM educated females at `r round(mean(MaleIITIIM$Funding,na.rm=TRUE),2)`. This is at a p-value of `r round(t.test(MaleIITIIM$Funding,Male12th$Funding)$p.value,2)` making it statistically insignificant(and also irrelevant).
+
+Education seems to have no role in the perceived probability of funding of a startup. This is contrary to conventional wisdom that says people from premier institutes get disproportionately high funding.
+
+
+                     %%%%%%%%%%%%%%%%%%%%%%Abandon%%%%%%%%%%%%%
+                     
+
+  \subsection{Probability of Abandoning Project}
+    One of the common aspects of social bias against females is that they would start a family and abandon their project/job/startup. This is true for traditional businesses and is cited as one of the reasons for unequal representation of women in the workplace.
+
+In figure \ref{boxabandon12th} We look at how people perceive the probability that the founders will abandon a startup founded by males versus that founded by females, when they have only completed schooling. While the mean probability that the founders will abandon a startup for school educated females at `r round(mean(Female12th$Abandon),2)` is higher than that of males at the same educated level at `r round(mean(Male12th$Abandon,na.rm=TRUE),2)`, the difference is not statistically significant at a p-value of `r round(t.test(Female12th$Abandon,Male12th$Abandon)$p.value,2)`.
+
+```{r seven, echo=FALSE,fig=TRUE, fig.width=4,fig.height=4}
+library(ggplot2)
+vis12<-ggplot(mergedtest[mergedtest$Name=="Female12th" | mergedtest$Name=="Male12th",],aes(Name,Abandon))
+vis12<-vis12+geom_boxplot()
+vis12<-vis12+labs(title ="Boxplot of estimated abandoning probability.",x="Category",y="Probability of Abandoning the Startup")
+print(vis12)
+
+
+#\caption{This box plot shows the probability of abandoning the startup as estimated for male and female founders educated till class 12.}
+#\label{boxabandon12th}
+#\end{figure}
+```
+
+
+
+In figure \ref{boxabandonIITIIM} We look at how people perceive the probability that the founders will abandon their startup for males versus females, when they have studied at premier institutes at undergrad as well as post graduate level. While the mean probability of abandoning  a startup founded by IIT-IIM educated females at `r round(mean(FemaleIITIIM$Abandon,na.rm=TRUE),2)` is higher than that of males at the same educated level at `r round(mean(MaleIITIIM$Abandon,na.rm=TRUE),2)`, the difference is not statistically significant at a p-value of `r round(t.test(FemaleIITIIM$Abandon,MaleIITIIM$Abandon)$p.value,2)`.
+
+It is surprising to note that the probability that the startup will be abandoned is lower for female led startups in both cases as compared to male founded startups.
+
+```{r eight, echo=FALSE,fig=TRUE, fig.width=4,fig.height=4}
+visIITIIM<-ggplot(mergedtest[mergedtest$Name=="FemaleIITIIM" | mergedtest$Name=="MaleIITIIM",],aes(Name,Abandon))
+visIITIIM<-visIITIIM+geom_boxplot()
+visIITIIM<-visIITIIM+labs(title ="Boxplot of estimated abandoning probability.",x="Category",y="Probability of Abandoning the Startup")
+print(visIITIIM)
+
+
+#\caption{This box plot shows the probablity of abandoning the startup as estimated for male and female founders educated at IIT and IIM.}
+#\label{boxabandonIITIIM}
+#\end{figure}
+```
+
+```{r nine, echo=FALSE,fig=TRUE, fig.width=4,fig.height=4}
+visalledu<-ggplot(mergedtest[mergedtest$Name=="FemaleIITIIM" | mergedtest$Name=="MaleIITIIM"| mergedtest$Name=="Female12th" | mergedtest$Name=="Male12th",],aes(Name,Abandon))
+visalledu<-visalledu+geom_boxplot()
+visalledu<-visalledu+labs(title ="Boxplot of estimated abandoning probability.",x="Category",y="Probability of Funding")
+print(visalledu)
+
+
+#\caption{This box plot shows the probablity of abandoning the startup as estimated across males and females and different education levels}
+#\label{boxabandonalleducation}
+#\end{figure}
+
+
+```
+
+The mean probability that a startup founded byschool educated females will be abandoned at `r round(mean(Female12th$Abandon,na.rm=TRUE),2)` is higher than that of IIT-IIM educated females at `r round(mean(FemaleIITIIM$Abandon,na.rm=TRUE),2)`. This is at a p-value of `r round(t.test(FemaleIITIIM$Abandon,Female12th$Abandon)$p.value,2)` making it statistically insignificant. 
+
+The mean probability that a startup founded byschool educated males will be abandoned at  `r round(mean(Male12th$Abandon,na.rm=TRUE),2)` is the slightly higher than that of IIT-IIM educated males at `r round(mean(MaleIITIIM$Abandon,na.rm=TRUE),2)`. This is at a p-value of `r round(t.test(MaleIITIIM$Abandon,Male12th$Abandon)$p.value,2)` making it statistically insignificant.
+
+
+\section{Later}
+
+\subsection{Comparison between Success, Abandon, Funding}
+
+```{r ten, echo=FALSE}
+
+##Filter values from the one, then select the other, other loops, Try Success, Funding, Abandon
+
+resultframe1<-data.frame()
+for (i in (1:length(unique(mergedtest$Name)))){
+  for (j in 1:length(unique(mergedtest$Name))){
+    f1<-filter(mergedtest,Name==unique(mergedtest$Name)[i])
+    f2<-filter(mergedtest,Name==unique(mergedtest$Name)[j])
+    resultframe1[i,1]<-paste(unique(mergedtest$Name)[i],"Success")
+    resultframe1[16+i,1]<-paste(unique(mergedtest$Name)[i],"Funding")
+    resultframe1[32+i,1]<-paste(unique(mergedtest$Name)[i],"Abandon")
+    
+    resultframe1[i,j+1]<-t.test(f1$Success,f2$Success)$p.value
+    resultframe1[length(unique(mergedtest$Name))+i,j+1]<-t.test(f1$Funding,f2$Funding)$p.value
+    resultframe1[(2*length(unique(mergedtest$Name)))+i,j+1]<-t.test(f1$Abandon,f2$Abandon)$p.value
+  }
+}
+
+colnames(resultframe1)<-c("Name",unique(mergedtest$Name))
+
+resultsframe2<-data.frame()
+for(i in 1:16){
+
+  r1<-filter(resultframe1,resultframe1[,i]<0.1)
+  resultsframe2[i,1]<-colnames(resultframe1)[i]
+  resultsframe2[i,2]<-length(r1[,2])
+}
+colnames(resultsframe2)<-c("Variable","Number of Significant pvalues")
+```
+
+We run multiple t-test between all combinations for the probability of success, probability of abandonment and probability of funding. We note down the p-value for each t-test. This gives us the number of differences that are statistically significant.
+
+```{r showtotal, echo=FALSE, results='asis',message=FALSE}
+stargazer(resultsframe2,summary=FALSE,header=FALSE,title="Table showing total number of significant pvalues for each Case and Metric")
+
+```
+
+\section{Time Taken}
+
+```{r timetaken,echo=FALSE}
+mergedtest2<-mergedtest
+mergedtest2$Time1<-parse_date_time(substr(mergedtest2$ResponseTime1,14,24),"%I:%M:%S %p")
+mergedtest2$Time2<-parse_date_time(substr(mergedtest2$ResponseTime2,14,24),"%I:%M:%S %p")
+mergedtest2$TimeDiff<-mergedtest2$Time2-mergedtest2$Time1
+
+#mean(mergedtest2$TimeDiff)
+mergedtest2%>%group_by(Gender)%>%summarise(timediff=mean(TimeDiff))
+gendernametimediff<-mergedtest2%>%group_by(Gender,Name)%>%summarise(timediff=mean(TimeDiff),n=length(TimeDiff))
+
+##WE see that there is a difference. .
+
+## For each group, we can see 
+## 1. Whether combined time is different
+## 2. Whether there is a diff between Males and Females
+
+resultframe3<-data.frame()
+resultframe4<-data.frame()
+for (i in (1:length(unique(mergedtest2$Name)))){
+  for (j in 1:length(unique(mergedtest2$Name))){
+    f1<-filter(mergedtest2,Name==unique(mergedtest2$Name)[i])
+    f2<-filter(mergedtest2,Name==unique(mergedtest2$Name)[j])
+    resultframe3[i,1]<-unique(mergedtest2$Name)[i]
+    resultframe3[i,j+1]<-t.test(f1$TimeDiff,f2$TimeDiff)$p.value
+  }
+  f3<-filter(f1,Gender=="Female")
+  f4<-filter(f1,Gender=="Male")
+  resultframe4[i,1]<-unique(mergedtest$Name)[i]
+  resultframe4[i,2]<-t.test(f3$TimeDiff,f4$TimeDiff)$p.value
+}
+colnames(resultframe3)<-c("Names",unique(mergedtest2$Name))
+colnames(resultframe4)<-c("Case","p value of t test")
+```
+
+Similarly, we look at the time it took people to tackle various cases. There is extant research to show that when people are not familiar with words or concepts they take more time to process it. We look at the difference between the time taken by each group to answer their case. Since the cases are randomly distributed and there is no incentive for anyone to do it faster or slower, the responses are independent.
+We look at the t-tests between the timings and summarise the same in a table. We further reduce the same to see the differences between genders for the same group. For example do women take more time to fill out the survey concerning a highly educated female, as compared to men? We summarise the total number of significant differences in the time taken in the following table.
+
+```{r showwithingender, echo=FALSE,message=FALSE,results='asis'}
+stargazer(resultframe4,summary=FALSE,header=FALSE,title="This table shows the pvalue of the t-test between the time taken to fill the survey case by males and females.")
+
+```
+
+
+	\section{Limitations}
+		We do not analyse the results based on the background of the respondents. We take only discrete age variables. These can be extended to 52,53 and 62, 63 as well. 
+		We do not look at Foreign education.
+		We do not specify the role in government service. It is possible that a bureaucrat is respected much more than any other civil servant.
+		
+
