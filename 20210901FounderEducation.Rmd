@@ -4,15 +4,13 @@ author: "Dr Preet Deep Singh"
 affiliation: "Invest India"
 date: "27/08/2021"
 output: 
-  pdf_document: 
+  bookdown::pdf_document2:
     toc: no
-    fig_caption: yes
-    number_sections: yes
-    keep_tex: yes
-abstract: "I look at the perception of founders of startups. I study the effect of age, education, gender, and background. I find important differences between gender and background of the founders as well as the time taken to respond for some cases in case of female and male respondents. Perception differences across gender(negative), age(positive), region(positive), and startup experience(postiive) are analysed based on the traits of the founders. This has implication for investors, employees and customers. We make policy recommendations with regard to sensitization and encouraging gender diversity."
+abstract: "I look at the perception of educational background of startup founders. AAAAAAAAA EdIT HERE. Perception differences across gender(negative), age(positive), region(positive), and startup experience(postiive) are analysed based on the traits of the founders. This has implication for investors, employees and customers. We make policy recommendations with regard to sensitization and encouraging gender diversity."
 documentclass: "article"
+editor_options: 
+  chunk_output_type: console
 ---
-
 
 
 ```{r setup, echo=FALSE, , message=FALSE, tidy=TRUE}
@@ -20,6 +18,7 @@ library(dplyr)
 library(stargazer)
 library(lubridate)
 library(formatR)
+library(bookdown)
 
 files<-list.files (pattern = "csv$")
 #Load all files
@@ -99,9 +98,188 @@ mergedtest<-merge(mergedtest,MaleMidAge, all.x=TRUE, all.y=TRUE)
 
 
 
+``` {r junk, echo=FALSE,  }
+
+#*	 Education 
+#    *	Low Education
+#    *	Technical Education
+#    *	Management Education
+
+#*	 Government Connect
+#    *		 Family in government service
+#    *		 Ex-government service
+
+#*	 Age
+#	  *	 Young
+#	  *	 Mid-age
+#	  *	 Old
+
+#*	 Region 
+#	  *	 Metro city
+#	  *	 Tier II City
+
+#*	 Startup Experience
+#	  *	 Founder
+#		*	 Successful startup
+#		*	 Failed startup
+		
+#*   Employee 
+#		*	 Successful startup
+#		*	 Failed startup
+
+```
+
 \section{Introduction}
 
-I Look at the perception of founders based on their characteristics measured by the probability of funding, probability of success and probability of abandonment of the startup. I find ABCDE. I dont find ABCDE. We drill deeper to see the difference between perceptions of male and female respondents. 
+I Look at the perception of  founder education measured by the probability of funding, probability of success and probability of abandonment of the startup. I find that there is no difference in ABC. I look at the gender of the respondents as well and find that there is a difference in BCD between male and female respondents. Perception is important because it leads to ABC \footnote{CITE LITERATURE HERE}. 
+
+\section{Literature Review}
+ADD CONTENT
+		
+	\subsection{Education}
+			Education should mitigate the differences of gender, at least in terms of ability. If someone is technically qualified, then their gender should not be of concern. Therefore we expect no difference between Male and Female co-founders who are technically qualified. Similarly, management education would obliterate any disparity in the ability of male and female founders. Since management education in our study is proxied with a degree from IIMs which offer only post graduate courses, it indicates a higher level of education. In case we do not find any differences, we would be able to say that education, technical or management does extinguish perceived differences between males and females.
+			
+\section{Data and Method}
+\subsection{Variables}
+\subsubsection{Success}
+  Success is not defined. The definition is nebulous because it is based on long term perception of the participants.
+\subsubsection{Funding}
+  Hot stuff. News captures. How others/investors would perceive the founders and the startup.
+\subsubsection{Abandonment}
+  Associated with females that they might leave the startup due to societal pressure, matrimony or family needs.
+\subsubsection{IIT IIM}
+IIT and IIM refer to Indian Institute of Technology and Indian Institute of Management respectively. They are highly coveted in India and are globally ranked among the top institutes. While IIT is famous for producing engineers, IIMs produce managers. To give a small example, Sundar Pichai\footnote{current CEO of Google} is from IIT Kharagpur. Ajay Banga, ex-CEO of Master Card, was from IIM Ahmedabad.
+\subsection{Method}
+  We administered a survey to (Length of filtered stuff) 100 participants. Half the participants we given a case involving CASE A. Others were given CASE B. All other details were the same. The participants were asked their estimate of the probability of Success, probability of Funding and Probability of Abandonment of the startup. 
+\subsection{Data Summary}
+Summary of the data and read out.
+We name the cases as follows: 
+Case 1: Female founders, school educated
+Case 2: Male founders, school educated
+Case 3: Male founders, IIT IIM educated
+Case 4: Female founders, IIT IIM educated
+
+```{r datasummary1, echo=FALSE, message=FALSE,results='asis'} 
+
+stargazer(select(Female12th,-Age),title =  "This tables shows the summary of responses in the case where the startup founders were females who had only completed school.",label = "female12thsummary",header = FALSE) #This is because we will use Age Separately.
+stargazer(select(Male12th,-Age),title = "This tables shows the summary of responses in the case where the startup founders were males who had only completed school." ,label = "male12thsummary",header = FALSE)
+stargazer(select(MaleIITIIM,-Age),title ="This tables shows the summary of responses in the case where the startup founders were male and studied from IIT and IIM.",label = "maleiitiimsummary",header = FALSE)
+stargazer(select(FemaleIITIIM,-Age),title = "This tables shows the summary of responses in the case where the startup founders were females and studied from IIT and IIM.",label = "femaleiitiimsummary",header = FALSE)
+
+#Add content on data, how many people, males or females, average of all three answers
+##Total number, mean, max, min, 
+```
+
+\subsection{Results}
+Graph on average results. This could be those box plots. 
+
+```{r boxplot1, echo=FALSE}
+library(ggplot2)
+###Copy paste code for the first one
+##One for Success for CASE 1 and CASE 2
+##One for Funding for CASE 1 and CASE 2
+##One for Abandonment for CASE 1 and CASE 2
+```
+
+
+```{r first2, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxsuccess12th}This box plot shows the probability of success as estimated for male and female founders educated till class 12."}
+library(ggplot2)
+vis12<-ggplot(mergedtest[mergedtest$Name=="Female12th" | mergedtest$Name=="Male12th",],aes(Name,Success))
+vis12<-vis12+geom_boxplot()
+vis12<-vis12+labs(title ="Boxplot of estimated success probability.",x="Category",y="Probability of Success" ) # size
+print(vis12)
+
+#\caption{"This box plot shows the probability of success as estimated for male and female founders educated till class 12."}
+#\label{boxsuccess12th}
+#\end{figure}
+###DO SOMETHING ABOUT THESE
+```
+
+In figure \@ref(fig:boxsuccess12th) we can see how people perceive the probability of success for a startup founded by males versus that founded by females, when they have only completed schooling. While the mean value of success for a startup founded by school educated females at `r round(mean(Female12th$Success),2)` is higher than that of males at the same educated level at `r round(mean(Male12th$Success),2)`   , the difference is not statistically significant at a p-value of `r round(t.test(Female12th$Success,Male12th$Success)$p.value,2)`.
+
+```{r second2, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxsuccessIITIIM}This box plot shows the probability of success as estimated for highly educated male and female founders."}
+visIITIIM<-ggplot(mergedtest[mergedtest$Name=="FemaleIITIIM" | mergedtest$Name=="MaleIITIIM",],aes(Name,Success))
+visIITIIM<-visIITIIM+geom_boxplot()
+visIITIIM<-visIITIIM+labs(title ="Boxplot of estimated success probability.",x="Category",y="Probability of Success")
+print(visIITIIM)
+#\caption{This box plot shows the probablity of success as estimated for male and female founders educated at IIT and IIM.}
+#\label{boxsuccessIITIIM}
+#\end{figure}
+
+```
+
+In figure \ref{boxsuccessIITIIM} We look at how people perceive the probability of success for a startup founded by males versus that founded by females, when they have studied at premier institutes at undergrad as well as post graduate level. While the mean value of success for a startup founded by IIT-IIM educated females at `r round(mean(FemaleIITIIM$Success),2)` is higher than that of males at the same educated level at `r round(mean(MaleIITIIM$Success),2)`, the difference is not statistically significant at a p-value of `r round(t.test(FemaleIITIIM$Success,MaleIITIIM$Success)$p.value,2)`.
+
+It is worth noting that in both cases, the mean value of probability of success is surprisingly higher for female led statups in both cases.
+
+
+
+
+
+Call out on Success. 
+Call out on Funding 
+Call out on Abandonment 
+
+
+\subsection{T Test results}
+
+\subsubsection{Success}
+The mean for CASE 1 is A. The mean for CASE 2 is B. The p value is XXXX. This means that the difference in the perception of success for startups where founders are CASE 1 and CASE 2 is NOT statistically significant.
+\subsubsection{Funding}
+The mean for CASE 1 is A. The mean for CASE 2 is B. The p value is XXXX. This means that the difference in the perception of success for startups where founders are CASE 1 and CASE 2 is NOT statistically significant.
+\subsubsection{Abandonment}
+The mean for CASE 1 is A. The mean for CASE 2 is B. The p value is XXXX. This means that the difference in the perception of success for startups where founders are CASE 1 and CASE 2 is NOT statistically significant.
+
+\subsection{Gender wise break up}
+
+How respondents from each gender perceive the founders under each case.
+\subsubsection{CASE 1 Success}
+Male respondents rate the probability of success of a startup led by CASE 1 founders was A.
+Female respondents rate the probability of success of a startup led by CASE 1 founders was B.
+The p value is XXX. This means that there is a difference between the perception of CASE 1 startups between evaluating males and females. 
+
+
+\subsubsection{CASE 1 Funding}
+Male respondents rate the probability of success of a startup led by CASE 1 founders was A.
+Female respondents rate the probability of success of a startup led by CASE 1 founders was B.
+The p value is XXX. This means that there is a difference between the perception of CASE 1 startups between evaluating males and females. 
+
+\subsubsection{CASE 1 Abandonment}
+Male respondents rate the probability of success of a startup led by CASE 1 founders was A.
+Female respondents rate the probability of success of a startup led by CASE 1 founders was B.
+The p value is XXX. This means that there is a difference between the perception of CASE 1 startups between evaluating males and females. 
+
+\subsubsection{CASE 2 Success}
+Male respondents rate the probability of success of a startup led by CASE 1 founders was A.
+Female respondents rate the probability of success of a startup led by CASE 1 founders was B.
+The p value is XXX. This means that there is a difference between the perception of CASE 1 startups between evaluating males and females. 
+
+
+\subsubsection{CASE 2 Funding}
+Male respondents rate the probability of success of a startup led by CASE 1 founders was A.
+Female respondents rate the probability of success of a startup led by CASE 1 founders was B.
+The p value is XXX. This means that there is a difference between the perception of CASE 1 startups between evaluating males and females. 
+
+\subsubsection{CASE 2 Abandonment}
+Male respondents rate the probability of success of a startup led by CASE 1 founders was A.
+Female respondents rate the probability of success of a startup led by CASE 1 founders was B.
+The p value is XXX. This means that there is a difference between the perception of CASE 1 startups between evaluating males and females. 
+
+
+\section{Conclusion}
+We see that while there is no difference in the perception of succcess, funding or abandonment of a startup based on whether the founders are CASE 1 or CASE 2, we see that the perception of males and females varies. 
+A practical import of this would be
+* If the product is targetted towards females, Vs males
+* If the investor who is evaluating the startup for funding is a male Vs Female
+* (IN case of abandon), then the founders should spend time showing commitment
+* This could explain some difference between the funding obtained by women
+
+\section{Limitations}
+* Situation is dynamic
+* Investors might be more sophisticated and not be biased though extant research has shown otherwise \footnote{ADD Literature}
+
+###########Older Material ###############
+
   \subsection{What we do}
     Startups are not the same as traditional businesses. They differ in method, founder demographics, scale-up and most importantly the use of technology. Recent success stories have lent social acceptance to 'startup culture'. Repeated appeals by the Hon'ble Prime Minister have ensured a paradigm shift in how startups are perceived. \footnote{More about Startup India Programme}.
     We look at how the gender and background of founders impacts the perceived probability of success of a startup. We use different cases to look at the difference between male and female founders, at varying education levels (12th, IIT-IIM) and background (Successful startup, Failed Startup) and age (20,30,40 years).
@@ -241,16 +419,7 @@ In figure \ref{boxsuccessIITIIM} We look at how people perceive the probability 
 It is worth noting that in both cases, the mean value of probability of success is surprisingly higher for female led statups in both cases.
 
 
-```{r second, echo=FALSE,fig=TRUE, fig.width=4,fig.height=4 }
-visIITIIM<-ggplot(mergedtest[mergedtest$Name=="FemaleIITIIM" | mergedtest$Name=="MaleIITIIM",],aes(Name,Success))
-visIITIIM<-visIITIIM+geom_boxplot()
-visIITIIM<-visIITIIM+labs(title ="Boxplot of estimated success probability.",x="Category",y="Probability of Success")
-print(visIITIIM)
-#\caption{This box plot shows the probablity of success as estimated for male and female founders educated at IIT and IIM.}
-#\label{boxsuccessIITIIM}
-#\end{figure}
-
-```
+###TOOK SOMETHING TO TOP###
 
 
 

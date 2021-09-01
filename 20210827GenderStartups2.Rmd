@@ -99,9 +99,137 @@ mergedtest<-merge(mergedtest,MaleMidAge, all.x=TRUE, all.y=TRUE)
 
 
 
+``` {r junk, echo=FALSE,  }
+
+#*	 Education 
+#    *	Low Education
+#    *	Technical Education
+#    *	Management Education
+
+#*	 Government Connect
+#    *		 Family in government service
+#    *		 Ex-government service
+
+#*	 Age
+#	  *	 Young
+#	  *	 Mid-age
+#	  *	 Old
+
+#*	 Region 
+#	  *	 Metro city
+#	  *	 Tier II City
+
+#*	 Startup Experience
+#	  *	 Founder
+#		*	 Successful startup
+#		*	 Failed startup
+		
+#*   Employee 
+#		*	 Successful startup
+#		*	 Failed startup
+
+```
+
 \section{Introduction}
 
-I Look at the perception of founders based on their characteristics measured by the probability of funding, probability of success and probability of abandonment of the startup. I find ABCDE. I dont find ABCDE. We drill deeper to see the difference between perceptions of male and female respondents. 
+I Look at the perception of ABC of founders based on measured by the probability of funding, probability of success and probability of abandonment of the startup. I find that there is no difference in ABC. I look at the gender of the respondents as well and find that there is a difference in BCD between male and female respondents. Perception is important because it leads to ABC \footnote{CITE LITERATURE HERE}. 
+
+\section{Literature Review}
+ADD CONTENT
+
+\section{Data and Method}
+\subsection{Variables}
+\subsubsection{Success}
+  Success is not defined. The definition is nebulous because it is based on long term perception of the participants.
+\subsubsection{Funding}
+  Hot stuff. News captures. How others/investors would perceive the founders and the startup.
+\subsubsection{Abandonment}
+  Associated with females that they might leave the startup due to societal pressure, matrimony or family needs.
+\subsection{Method}
+  We administered a survey to (Length of filtered stuff) 100 participants. Half the participants we given a case involving CASE A. Others were given CASE B. All other details were the same. The participants were asked their estimate of the probability of Success, probability of Funding and Probability of Abandonment of the startup. 
+\subsection{Data Summary}
+Summary of the data and read out.
+
+```{r datasummary1, echo=FALSE, message=FALSE} 
+
+#Add content on data, how many people, males or females, average of all three answers
+##Total number, mean, max, min, 
+```
+
+\subsection{Results}
+Graph on average results. This could be those box plots. 
+
+```{r boxplot1, echo=FALSE}
+###Copy paste code for the first one
+##One for Success for CASE 1 and CASE 2
+##One for Funding for CASE 1 and CASE 2
+##One for Abandonment for CASE 1 and CASE 2
+```
+
+Call out on Success. 
+Call out on Funding 
+Call out on Abandonment 
+
+
+\subsection{T Test results}
+
+\subsubsection{Success}
+The mean for CASE 1 is A. The mean for CASE 2 is B. The p value is XXXX. This means that the difference in the perception of success for startups where founders are CASE 1 and CASE 2 is NOT statistically significant.
+\subsubsection{Funding}
+The mean for CASE 1 is A. The mean for CASE 2 is B. The p value is XXXX. This means that the difference in the perception of success for startups where founders are CASE 1 and CASE 2 is NOT statistically significant.
+\subsubsection{Abandonment}
+The mean for CASE 1 is A. The mean for CASE 2 is B. The p value is XXXX. This means that the difference in the perception of success for startups where founders are CASE 1 and CASE 2 is NOT statistically significant.
+
+\subsection{Gender wise break up}
+
+How respondents from each gender perceive the founders under each case.
+\subsubsection{CASE 1 Success}
+Male respondents rate the probability of success of a startup led by CASE 1 founders was A.
+Female respondents rate the probability of success of a startup led by CASE 1 founders was B.
+The p value is XXX. This means that there is a difference between the perception of CASE 1 startups between evaluating males and females. 
+
+
+\subsubsection{CASE 1 Funding}
+Male respondents rate the probability of success of a startup led by CASE 1 founders was A.
+Female respondents rate the probability of success of a startup led by CASE 1 founders was B.
+The p value is XXX. This means that there is a difference between the perception of CASE 1 startups between evaluating males and females. 
+
+\subsubsection{CASE 1 Abandonment}
+Male respondents rate the probability of success of a startup led by CASE 1 founders was A.
+Female respondents rate the probability of success of a startup led by CASE 1 founders was B.
+The p value is XXX. This means that there is a difference between the perception of CASE 1 startups between evaluating males and females. 
+
+\subsubsection{CASE 2 Success}
+Male respondents rate the probability of success of a startup led by CASE 1 founders was A.
+Female respondents rate the probability of success of a startup led by CASE 1 founders was B.
+The p value is XXX. This means that there is a difference between the perception of CASE 1 startups between evaluating males and females. 
+
+
+\subsubsection{CASE 2 Funding}
+Male respondents rate the probability of success of a startup led by CASE 1 founders was A.
+Female respondents rate the probability of success of a startup led by CASE 1 founders was B.
+The p value is XXX. This means that there is a difference between the perception of CASE 1 startups between evaluating males and females. 
+
+\subsubsection{CASE 2 Abandonment}
+Male respondents rate the probability of success of a startup led by CASE 1 founders was A.
+Female respondents rate the probability of success of a startup led by CASE 1 founders was B.
+The p value is XXX. This means that there is a difference between the perception of CASE 1 startups between evaluating males and females. 
+
+
+\section{Conclusion}
+We see that while there is no difference in the perception of succcess, funding or abandonment of a startup based on whether the founders are CASE 1 or CASE 2, we see that the perception of males and females varies. 
+A practical import of this would be
+* If the product is targetted towards females, Vs males
+* If the investor who is evaluating the startup for funding is a male Vs Female
+* (IN case of abandon), then the founders should spend time showing commitment
+* This could explain some difference between the funding obtained by women
+
+\section{Limitations}
+* Situation is dynamic
+* Investors might be more sophisticated and not be biased though extant research has shown otherwise \footnote{ADD Literature}
+
+###########Older Material ###############
+
   \subsection{What we do}
     Startups are not the same as traditional businesses. They differ in method, founder demographics, scale-up and most importantly the use of technology. Recent success stories have lent social acceptance to 'startup culture'. Repeated appeals by the Hon'ble Prime Minister have ensured a paradigm shift in how startups are perceived. \footnote{More about Startup India Programme}.
     We look at how the gender and background of founders impacts the perceived probability of success of a startup. We use different cases to look at the difference between male and female founders, at varying education levels (12th, IIT-IIM) and background (Successful startup, Failed Startup) and age (20,30,40 years).
