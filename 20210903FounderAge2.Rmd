@@ -145,25 +145,27 @@ ADD CONTENT
 \section{Data and Method}
 \subsection{Variables}
 \subsubsection{Success}
-  Success is not defined. The definition is nebulous because it is based on long term perception of the participants.
+  Success is not defined. The definition is kept open ended and it is based on perception of the participants.
 \subsubsection{Funding}
   Hot stuff. News captures. How others/investors would perceive the founders and the startup.
 \subsubsection{Abandonment}
   Associated with females that they might leave the startup due to societal pressure, matrimony or family needs.
 \subsubsection{Age}
-We 22, 32, 42
+The founders across cases are aged 22,23 years (Case 1); 32,33 years (Case 2); and 42,43 years (Case 3). We 
 
 \subsection{Method}
-  We administered a survey to (Length of filtered stuff) 100 participants. Half the participants we given a case involving CASE A. Others were given CASE B. All other details were the same. The participants were asked their estimate of the probability of Success, probability of Funding and Probability of Abandonment of the startup. 
+  We administered a survey to 300 participants. They were divided in six groups. Each group was given an identical case study of a startup and were asked to estimate the probability of success, probability of funding and probability of abandoning the startup. Each group had one of six cases as given below. 
 \subsection{Data Summary}
 Summary of the data and read out.
 We name the cases as follows: 
-Case 1: Female founders, 20
-Case 2: Male founders, 20
-Case 3: Male founders, 30
-Case 4: Male founders, 40
-Case 5: Female founders, 30
-Case 6: Female founders, 40
+Case 1a: Female founders, 20 named as FemaleYoung
+Case 1b: Male founders, 20, named as MaleYoung
+
+Case 2a: Female founders, 30, named as FemaleMidAge
+Case 2b: Male founders, 30, named as MaleMidAge
+
+Case 3a: Female founders, 40, named as FemaleOld
+Case 3b: Male founders, 40, named as MaleOld
 
 ```{r datasummary1, echo=FALSE, message=FALSE,results='asis'} 
 
@@ -181,9 +183,9 @@ stargazer(select(MaleOld,-Age),title = "This tables shows the summary of respons
 Graph on average results. This could be those box plots. 
 
 \subsection{Success}
+We look at the values for probability of success as estimated by our respondents across various age groups.
 
-
-```{r success1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxsuccessage}This box plot shows the probablity of success as estimated across males and females and different age lvels"}
+```{r success1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxsuccessage}This box plot shows the probablity of success as estimated across males and females and different age lvels", warning=FALSE}
 library(ggplot2)
 visalledu<-ggplot(mergedtest[mergedtest$Name=="FemaleOld" |mergedtest$Name=="FemaleMidAge"| mergedtest$Name=="FemaleYoung"| mergedtest$Name=="MaleOld" | mergedtest$Name=="MaleMidAge"| mergedtest$Name=="MaleYoung",],aes(Name,Success))
 visalledu<-visalledu+geom_boxplot()
@@ -331,15 +333,58 @@ if(i == j) { ##Using Ifelse because WriteLines is an action.
 } else{
       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j]," is " ,round(t.test(file1$Funding,file2$Funding)$p.value,2),".  "))
 }
-
+print(paste("i=",i))
+print(paste("j=",j))
+print(paste("k=",k))
+print(paste("m=",m))
  # 5 p value of file1$Funding , filter(GenderList[i]) and file2$Funding , filter(GenderList[i])
 if(i == j) {
   0
 } else{
-  writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by ", GenderList[k]," respondents is " ,round(t.test(filter(file1,Gender==GenderList[k])$Funding,filter(file2,Gender==GenderList[k])$Funding)$p.value,2),"."))
+  writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Male respondents is " ,round(t.test(filter(file1,Gender=="Male")$Funding,filter(file2,Gender=="Male")$Funding)$p.value,2),"."))
+    writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Female respondents is " ,round(t.test(filter(file1,Gender=="Female")$Funding,filter(file2,Gender=="Female")$Funding)$p.value,2),"."))
 }
  }}}
 #}
+
+round(
+  t.test(
+    filter(file1,Gender==GenderList[k])$Funding,
+    filter(file2,Gender==GenderList[k])$Funding)$
+    p.value,
+  2)
+
+round(
+  t.test(
+    filter(filter(mergedtest,mergedtest$Name==filelist[i]),Gender=="Male")$Funding,
+    filter(filter(mergedtest,mergedtest$Name==filelist[j]),Gender=="Male")$Funding)$
+    p.value,
+  2)
+length(filter(mergedtest,Name=="FemaleOld")$ResponseTime1)
+for (i in 1:6){
+  for (j in 1:6){
+    for(k in 1:2){
+       file1<-filter(mergedtest,mergedtest$Name==filelist[i])
+       file2<-filter(mergedtest,mergedtest$Name==filelist[j])
+       
+       if(i == j) { ##Using Ifelse because WriteLines is an action.
+  0
+} else{
+      writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j]," is " ,round(t.test(file1$Funding,file2$Funding)$p.value,2),".  "))
+}
+       
+       print(paste("i=",i))
+print(paste("j=",j))
+print(paste("k=",k))
+print(paste("m=",m))
+       if(i == j) {
+  0
+} else{
+       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by ", GenderList[k]," respondents is " ,round(t.test(filter(file1,Gender==GenderList[k])$Funding,filter(file2,Gender==GenderList[k])$Funding)$p.value,2),"."))
+    }}
+  }
+}
+
 
 ```
 
@@ -406,15 +451,28 @@ if(i == j) {
 
 \section{Conclusion}
 
-The mean value of success for a startup founded by young females at `r round(mean(FemaleYoung$Success),2)` and the mean value of success for a startup founded by old females at `r round(mean(FemaleOld$Success),2)`. The p-value of the difference is `r round(t.test(FemaleOld$Success,FemaleYoung$Success)$p.value,2)`.
-
-
-
-The p value of the difference between probability of success estimated by male respondents for startups founded by older female founders and young female founders is `r round(t.test(filter(FemaleOld,Gender=="Male")$Success,filter(FemaleYoung,Gender=="Male")$Success)$p.value,2)`. We see that the p value is significant at 0.05 level. 
-
-The mean probability of abandoning in case of young males, as estimated by female respondents is `r round(mean(filter(MaleYoung,Gender=="Female")$Abandon,na.rm=TRUE),2)`.
-The mean probability of abandoning in case of young males, as estimated by male respondents is `r round(mean(filter(MaleYoung,Gender=="Male")$Abandon,na.rm=TRUE),2)`.
-The p value of the difference between the two is `r round(t.test(filter(MaleYoung,Gender=="Male")$Abandon,filter(MaleYoung,Gender=="Female")$Abandon)$p.value,2)`.
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge as estimated by male and female respondents is 0.02
+The p-value of the difference between estimated probability of Funding for startups founded by MaleOld as estimated by male and female respondents is 0.02
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleYoung and FemaleMidAge as estimated by Male respondents is 0.02
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleYoung and FemaleOld as estimated by Male respondents is 0.06.
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleYoung and FemaleMidAge as estimated by Female respondents is 0.02
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge and FemaleYoung as estimated by Male respondents is 0.09
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge and FemaleOld as estimated by Male respondents is 0.06 ###How Come?
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleOld and FemaleYoung as estimated by Male respondents is 0.09. 
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleOld and FemaleMidAge as estimated by Male respondents is 0.02###How Come?
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleOld and FemaleMidAge as estimated by Female respondents is 0.02
+The p-value of the difference between estimated probability of Funding for startups founded by MaleYoung and FemaleYoung as estimated by Male respondents is 0.09
+The p-value of the difference between estimated probability of Funding for startups founded by MaleYoung and FemaleMidAge as estimated by Male respondents is 0.02
+The p-value of the difference between estimated probability of Funding for startups founded by MaleYoung and FemaleOld as estimated by Male respondents is 0.06
+The p-value of the difference between estimated probability of Funding for startups founded by MaleYoung and FemaleMidAge as estimated by Female respondents is 0.02
+The p-value of the difference between estimated probability of Funding for startups founded by MaleMidAge and FemaleYoung as estimated by Male respondents is 0.09
+The p-value of the difference between estimated probability of Funding for startups founded by MaleMidAge and FemaleMidAge as estimated by Male respondents is 0.02
+The p-value of the difference between estimated probability of Funding for startups founded by MaleMidAge and FemaleOld as estimated by Male respondents is 0.06
+The p-value of the difference between estimated probability of Funding for startups founded by MaleMidAge and FemaleMidAge as estimated by Female respondents is 0.02
+The p-value of the difference between estimated probability of Funding for startups founded by MaleOld and FemaleYoung as estimated by Male respondents is 0.09.
+The p-value of the difference between estimated probability of Funding for startups founded by MaleOld and FemaleMidAge as estimated by Male respondents is 0.02.
+The p-value of the difference between estimated probability of Funding for startups founded by MaleOld and FemaleOld as estimated by Male respondents is 0.06
+The p-value of the difference between estimated probability of Funding for startups founded by MaleOld and FemaleMidAge as estimated by Female respondents is 0.02.
 
 
 We see a clear difference between the estimated probability of success for startups driven by young female founders versus those driven by old female founders. The difference is driven more by female respondents. We also see that there is no statistically significant difference in the estimated probability of abandoning the startup between older males and female founders. There is a difference in the estimated probability of abandoning the startup in case of young male founders. This is also driven by female respondents.
