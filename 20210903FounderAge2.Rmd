@@ -1,0 +1,449 @@
+---
+title: "Perception of Founders' Age in Startups"
+author: "Dr Preet Deep Singh"
+affiliation: "Invest India"
+date: "03/09/2021"
+output: 
+  bookdown::pdf_document2:
+    toc: no
+    number_sections: yes
+    keep_tex: yes
+abstract: "I look at the perception of educational background of startup founders. EDIT HERE. I find a difference between the estimated probability of success for startups driven by school educated female founders versus those driven by highly educated female founders(higher). The difference is driven more by female respondents. We dont find any statistically significant difference in the estimated probability of abandoning the startup between males and female founders. There is a difference in the estimated probability of school educated male founders abandoning the startup in case of female respondents vs male respondents(higher). This is also driven by female respondents. This research suggests specific steps for founders while pitching to customers/buyers. "
+documentclass: "article"
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup, echo=FALSE, , message=FALSE, tidy=TRUE}
+library(dplyr)
+library(stargazer)
+library(lubridate)
+library(formatR)
+library(bookdown)
+
+files<-list.files (pattern = "csv$")
+#Load all files
+FailedFounder<-read.csv("FailedFounder.csv")
+Female12th<-read.csv("Female12th.csv")
+FemaleFailedFounder<-read.csv("FemaleFailedFounder.csv")
+FemaleIITIIM<-read.csv("FemaleIITIIM.csv")
+FemaleMidAge<-read.csv("FemaleMidAge.csv")
+FemaleOld<-read.csv("FemaleOld.csv")
+FemaleYoung<-read.csv("FemaleYoung.csv")
+GovtFather<-read.csv("GovtFather.csv")
+Male12th<-read.csv("Male12th.csv")
+MaleFailedFounder<-read.csv("MaleFailedFounder.csv")
+MaleIITIIM<-read.csv("MaleIITIIM.csv")
+MaleMidAge<-read.csv("MaleMidAge.csv")
+MaleOld<-read.csv("MaleOld.csv")
+MaleYoung<-read.csv("MaleYoung.csv")
+SuccessfulEmployee<-read.csv("SUccessfulEmployee.csv")
+SuccessfulFounder<-read.csv("SuccessfulFounder.csv")
+#Rename ColumnNames
+colnames(FailedFounder) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(Female12th) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(FemaleIITIIM) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(FemaleMidAge) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(FemaleOld) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(FemaleYoung) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(GovtFather) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(Male12th) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(MaleFailedFounder) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(FemaleFailedFounder) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(MaleIITIIM) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(MaleMidAge) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(MaleYoung) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(MaleOld) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(SuccessfulEmployee)<-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+colnames(SuccessfulFounder)<-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
+
+
+
+FailedFounder$Name<-"FailedFounder"
+SuccessfulEmployee$Name<-"SuccessfulEmployee"
+SuccessfulFounder$Name<-"SuccessfulFounder"
+FemaleFailedFounder$Name<-"FemaleFailedFounder"
+MaleFailedFounder$Name<-"MaleFailedFounder"
+GovtFather$Name<-"GovtFather"
+
+MaleYoung$Name<-"MaleYoung"
+FemaleYoung$Name<-"FemaleYoung"
+FemaleMidAge$Name<-"FemaleMidAge"
+MaleMidAge$Name<-"MaleMidAge"
+MaleOld$Name<-"MaleOld"
+FemaleOld$Name<-"FemaleOld"
+
+Female12th$Name<-"Female12th"
+Male12th$Name<-"Male12th"
+MaleIITIIM$Name<-"MaleIITIIM"
+FemaleIITIIM$Name<-"FemaleIITIIM"
+
+
+mergedtest<-merge(GovtFather,FemaleFailedFounder, all.x=TRUE, all.y=TRUE) #This will work if there is a column with the name of the file. 
+mergedtest<-merge(mergedtest,FailedFounder, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,SuccessfulEmployee, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,SuccessfulFounder, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,MaleFailedFounder, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,FemaleIITIIM, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,MaleIITIIM, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,Male12th, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,Female12th, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,FemaleYoung, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,FemaleMidAge, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,FemaleOld, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,MaleOld, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,MaleYoung, all.x=TRUE, all.y=TRUE)
+mergedtest<-merge(mergedtest,MaleMidAge, all.x=TRUE, all.y=TRUE)
+
+```
+
+
+
+``` {r junk, echo=FALSE,  }
+
+#*	 Education : DONE
+#    *	Low Education
+#    *	Technical Education
+#    *	Management Education
+
+#*	 Government Connect
+#    *		 Family in government service
+#    *		 Ex-government service
+
+#*	 Age DONE
+#	  *	 Young
+#	  *	 Mid-age
+#	  *	 Old
+
+#*	 Region 
+#	  *	 Metro city
+#	  *	 Tier II City
+
+#*	 Startup Experience
+#	  *	 Founder
+#		*	 Successful startup
+#		*	 Failed startup
+		
+#*   Employee 
+#		*	 Successful startup
+#		*	 Failed startup
+
+```
+
+\section{Introduction}
+TODO:1
+I Look at the perception of  founder age measured by the probability of funding, probability of success and probability of abandonment of the startup. I find that there is no difference in ABC. I look at the gender of the respondents as well and find that there is a difference in BCD between male and female respondents. Perception is important because it leads to ABC \footnote{CITE LITERATURE HERE}.  #EDIT THIS
+
+\section{Literature Review}
+ADD CONTENT
+		
+\subsubsection{Age}
+	While experience is considered as a major requirement in terms of employment, it may not be so for startups as we have seen success stories of college dropouts such as Bill Gates, Ritesh Agrawal, Steve Jobs and many other\footnote{FIND AN ARTICLE ABOUT THIS}. However, the spirit of entrepreneurship is not very strong in India. The education system therein does not lead to employability or maturity of the students as much as international curriculum. This is ingrained in people. Youth might be associated with recklessness and immaturity or inability to perceive risk\footnote{FIND REFERENCES}.
+			
+	We expect young startups to be perceived negatively. At 22,23, it is unlikely that the founders have had any relevant work experience. At 42, one might be perceived as more serious because one has a family and loans to take care of. Also, even if one started at a lower salary, over the course of two decades one might be earning more. If someone is willing to forego that amount, it would signal seriousness as the opportunity cost is much higher. We expect a similar effect on mid-age founder run startups but to a lesser extent.			
+\section{Data and Method}
+\subsection{Variables}
+\subsubsection{Success}
+  Success is not defined. The definition is nebulous because it is based on long term perception of the participants.
+\subsubsection{Funding}
+  Hot stuff. News captures. How others/investors would perceive the founders and the startup.
+\subsubsection{Abandonment}
+  Associated with females that they might leave the startup due to societal pressure, matrimony or family needs.
+\subsubsection{Age}
+We 22, 32, 42
+
+\subsection{Method}
+  We administered a survey to (Length of filtered stuff) 100 participants. Half the participants we given a case involving CASE A. Others were given CASE B. All other details were the same. The participants were asked their estimate of the probability of Success, probability of Funding and Probability of Abandonment of the startup. 
+\subsection{Data Summary}
+Summary of the data and read out.
+We name the cases as follows: 
+Case 1: Female founders, 20
+Case 2: Male founders, 20
+Case 3: Male founders, 30
+Case 4: Male founders, 40
+Case 5: Female founders, 30
+Case 6: Female founders, 40
+
+```{r datasummary1, echo=FALSE, message=FALSE,results='asis'} 
+
+stargazer(select(FemaleYoung,-Age),title =  "This tables shows the summary of responses in the case where the startup founders were females aged 22 and 23 years.",label = "FemaleYoungsummary",header = FALSE) #This is because we will use Age Separately.
+stargazer(select(FemaleMidAge,-Age),title = "This tables shows the summary of responses in the case where the startup founders were females aged 32 and 33 years." ,label = "FemaleMidAgesummary",header = FALSE)
+stargazer(select(FemaleOld,-Age),title ="This tables shows the summary of responses in the case where the startup founders were females aged 42 and 43 years.",label = "FemaleOldsummary",header = FALSE)
+stargazer(select(MaleYoung,-Age),title = "This tables shows the summary of responses in the case where the startup founders were males aged 22 and 23 years.",label = "MaleYoungummary",header = FALSE)
+stargazer(select(MaleMidAge,-Age),title =  "This tables shows the summary of responses in the case where the startup founders were males aged 32 and 33 years.",label = "MaleMidAgesummary",header = FALSE) #This is because we will use Age Separately.
+stargazer(select(MaleOld,-Age),title = "This tables shows the summary of responses in the case where the startup founders were males aged 42 and 43 years." ,label = "MaleOldsummary",header = FALSE)
+#Add content on data, how many people, males or females, average of all three answers
+##Total number, mean, max, min, 
+```
+
+\subsection{Results}
+Graph on average results. This could be those box plots. 
+
+\subsection{Success}
+
+
+```{r success1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxsuccessage}This box plot shows the probablity of success as estimated across males and females and different age lvels"}
+library(ggplot2)
+visalledu<-ggplot(mergedtest[mergedtest$Name=="FemaleOld" |mergedtest$Name=="FemaleMidAge"| mergedtest$Name=="FemaleYoung"| mergedtest$Name=="MaleOld" | mergedtest$Name=="MaleMidAge"| mergedtest$Name=="MaleYoung",],aes(Name,Success))
+visalledu<-visalledu+geom_boxplot()
+visalledu<-visalledu+labs(title ="Boxplot of estimated success probability",x="Category",y="Probability of Success")
+print(visalledu)
+#\caption{This box plot shows the probablity of success as estimated across males and females and different education levels}
+#\label{boxsuccessalleducation}
+#\end{figure}
+```
+
+
+
+\subsection{Funding}
+
+
+```{r funding1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxfundingage}This box plot shows the probablity of funding as estimated across males and females and different age levels.",message=FALSE,warning=FALSE}
+visalledu<-ggplot(mergedtest[mergedtest$Name=="FemaleOld" |mergedtest$Name=="FemaleMidAge"| mergedtest$Name=="FemaleYoung"| mergedtest$Name=="MaleOld" | mergedtest$Name=="MaleMidAge"| mergedtest$Name=="MaleYoung",],aes(Name,Funding))
+visalledu<-visalledu+geom_boxplot()
+visalledu<-visalledu+labs(title ="Boxplot of estimated success probability",x="Category",y="Probability of Funding")
+print(visalledu)
+#\caption{This box plot shows the probablity of success as estimated across males and females and different education levels}
+#\label{boxsuccessalleducation}
+#\end{figure}
+```
+
+
+
+\subsection{Abandonment}
+
+```{r abandon1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxabandonedu}This box plot shows the probablity of abandoning as estimated across males and females and different age levels.",message=FALSE,warning=FALSE}
+visalledu<-ggplot(mergedtest[mergedtest$Name=="FemaleOld" |mergedtest$Name=="FemaleMidAge"| mergedtest$Name=="FemaleYoung"| mergedtest$Name=="MaleOld" | mergedtest$Name=="MaleMidAge"| mergedtest$Name=="MaleYoung",],aes(Name,Abandon))
+visalledu<-visalledu+geom_boxplot()
+visalledu<-visalledu+labs(title ="Boxplot of estimated abandoning probability",x="Category",y="Probability of Abandon")
+print(visalledu)
+#\caption{This box plot shows the probablity of abandoning as estimated across males and females and different education levels}
+#\label{boxabandoningalleducation}
+#\end{figure}
+```
+
+
+\subsection{Gender wise break up}
+\subsubsection{Success}
+```{r gendersuccess1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxgendersuccessage}This box plot shows the probablity of success as estimated by males and females across male and female founders with different education levels.",message=FALSE,warning=FALSE}
+library(ggplot2)
+visalledu<-ggplot(mergedtest[mergedtest$Name=="FemaleOld" |mergedtest$Name=="FemaleMidAge"| mergedtest$Name=="FemaleYoung"| mergedtest$Name=="MaleOld" | mergedtest$Name=="MaleMidAge"| mergedtest$Name=="MaleYoung",],aes(Name,Success))
+visalledu<-visalledu+geom_boxplot(aes(colour = Gender))
+visalledu<-visalledu+labs(title ="Boxplot of estimated success probability",x="Category",y="Probability of Success")
+print(visalledu)
+#\caption{This box plot shows the probablity of success as estimated across males and females and different education levels}
+#\label{boxsuccessalleducation}
+#\end{figure}
+```
+
+
+I compare how probability of success changes with the age of the founders changes with the gender of the respondents. 
+
+```{r multievaluatesuccessgender, results='asis', null_prefix=TRUE,echo=FALSE, warning=FALSE,error=FALSE}
+
+parameter<-c("Success", "Funding", "Abandon") #as m
+m<-1
+GenderList<-c("Male", "Female") #as k and n
+
+  for (i in 1:6){
+   
+     
+        filelist<-c("FemaleYoung","FemaleMidAge","FemaleOld","MaleYoung","MaleMidAge","MaleOld")
+        file1<-filter(mergedtest,mergedtest$Name==filelist[i])
+        
+ # 1 Mean of file1$Success # where file1 and file2 are as above
+writeLines(paste0(" The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders is " ,round(mean(file1$Success,na.rm=TRUE),2),"."))
+
+# 2 p value of file1$Success, filter(GenderList[i]) and file1$Success, filter(GenderList[j]) #Instead Male and Female. so IfElse not needed.
+       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," as estimated by male and female respondents is " , round(t.test(filter(file1,Gender=="Male")$Success,filter(file1,Gender=="Female")$Success)$p.value,2),"."))
+  }
+      for (i in 1:6){   
+       for (k in 1:2){
+       # for (n in 1:2){
+       # 3 Mean of file1$Success , filter(GenderList[i])
+writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per ",GenderList[k]," respondents is " ,round(mean(filter(file1,Gender==GenderList[k])$Success,na.rm=TRUE),2),".  "))
+
+ for (j in 1:6){
+   file2<-filter(mergedtest,mergedtest$Name==filelist[j])
+# 4 p value of file1$Success and file2$Success
+if(i == j) { ##Using Ifelse because WriteLines is an action.
+  0
+} else{
+      writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j]," is " ,round(t.test(file1$Success,file2$Success)$p.value,2),".  "))
+}
+
+ # 5 p value of file1$Success , filter(GenderList[i]) and file2$Success , filter(GenderList[i])
+if(i == j) {
+  0
+} else{
+  writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by ", GenderList[k]," respondents is " ,round(t.test(filter(file1,Gender==GenderList[k])$Success,filter(file2,Gender==GenderList[k])$Success)$p.value,2),"."))
+}
+ }}}
+#}
+
+```
+
+SEE ABOVE THIS LINE.
+
+\subsubsection{Funding}
+```{r genderfunding1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxgenderfundingedu}This box plot shows the probablity of funding as estimated by males and females across male and female founders with different age levels.",message=FALSE,warning=FALSE}
+visalledu<-ggplot(mergedtest[mergedtest$Name=="FemaleOld" |mergedtest$Name=="FemaleMidAge"| mergedtest$Name=="FemaleYoung"| mergedtest$Name=="MaleOld" | mergedtest$Name=="MaleMidAge"| mergedtest$Name=="MaleYoung",],aes(Name,Funding))
+visalledu<-visalledu+geom_boxplot(aes(colour = Gender))
+visalledu<-visalledu+labs(title ="Boxplot of estimated success probability",x="Category",y="Probability of Funding")
+print(visalledu)
+#\caption{This box plot shows the probablity of success as estimated across males and females and different education levels}
+#\label{boxsuccessalleducation}
+#\end{figure}
+```
+As visible in Figure \@ref(fig:boxgenderfundingedu), the estimation of the funding of the startup also varies as per the gender of the respondent. 
+
+
+```{r multievaluatefundinggender, results='asis', null_prefix=TRUE,echo=FALSE, warning=FALSE,error=FALSE}
+
+parameter<-c("Success", "Funding", "Abandon") #as m
+m<-2
+GenderList<-c("Male", "Female") #as k and n
+
+  for (i in 1:6){
+   
+     
+        filelist<-c("FemaleYoung","FemaleMidAge","FemaleOld","MaleYoung","MaleMidAge","MaleOld")
+        file1<-filter(mergedtest,mergedtest$Name==filelist[i])
+        
+ # 1 Mean of file1$Funding # where file1 and file2 are as above
+writeLines(paste0(" The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders is " ,round(mean(file1$Funding,na.rm=TRUE),2),"."))
+
+# 2 p value of file1$Funding, filter(GenderList[i]) and file1$Funding, filter(GenderList[j]) #Instead Male and Female. so IfElse not needed.
+       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," as estimated by male and female respondents is " , round(t.test(filter(file1,Gender=="Male")$Funding,filter(file1,Gender=="Female")$Funding)$p.value,2),"."))
+  }
+      for (i in 1:6){   
+       for (k in 1:2){
+       # for (n in 1:2){
+       # 3 Mean of file1$Funding , filter(GenderList[i])
+writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per ",GenderList[k]," respondents is " ,round(mean(filter(file1,Gender==GenderList[k])$Funding,na.rm=TRUE),2),".  "))
+
+ for (j in 1:6){
+   file2<-filter(mergedtest,mergedtest$Name==filelist[j])
+# 4 p value of file1$Funding and file2$Funding
+if(i == j) { ##Using Ifelse because WriteLines is an action.
+  0
+} else{
+      writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j]," is " ,round(t.test(file1$Funding,file2$Funding)$p.value,2),".  "))
+}
+
+ # 5 p value of file1$Funding , filter(GenderList[i]) and file2$Funding , filter(GenderList[i])
+if(i == j) {
+  0
+} else{
+  writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by ", GenderList[k]," respondents is " ,round(t.test(filter(file1,Gender==GenderList[k])$Funding,filter(file2,Gender==GenderList[k])$Funding)$p.value,2),"."))
+}
+ }}}
+#}
+
+```
+
+
+
+\subsubsection{Abandon}
+```{r genderabandon1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxgenderabandonedu}This box plot shows the probablity of abandoning as estimated by males and females across male and female founders with different education levels.",message=FALSE,warning=FALSE}
+visalledu<-ggplot(mergedtest[mergedtest$Name=="FemaleOld" |mergedtest$Name=="FemaleMidAge"| mergedtest$Name=="FemaleYoung"| mergedtest$Name=="MaleOld" | mergedtest$Name=="MaleMidAge"| mergedtest$Name=="MaleYoung",],aes(Name,Abandon))
+visalledu<-visalledu+geom_boxplot(aes(colour = Gender))
+visalledu<-visalledu+labs(title ="Boxplot of estimated abandoning probability.",x="Category",y="Probability of Abandon")
+print(visalledu)
+#\caption{This box plot shows the probablity of abandoning as estimated across males and females and different education levels}
+#\label{boxabandoningalleducation}
+#\end{figure}
+```
+
+As visible in Figure \@ref(fig:boxgenderabandonedu), the estimation of the abandoning of the startup also varies as per the gender of the respondent. 
+
+
+```{r multievaluateabandongender, results='asis', null_prefix=TRUE,echo=FALSE, warning=FALSE,error=FALSE}
+
+parameter<-c("Success", "Funding", "Abandon") #as m
+m<-3
+GenderList<-c("Male", "Female") #as k 
+
+  for (i in 1:6){
+   
+     
+        filelist<-c("FemaleYoung","FemaleMidAge","FemaleOld","MaleYoung","MaleMidAge","MaleOld")
+        file1<-filter(mergedtest,mergedtest$Name==filelist[i])
+        
+ # 1 Mean of file1$Abandon # where file1 and file2 are as above
+writeLines(paste0(" The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders is " ,round(mean(file1$Abandon,na.rm=TRUE),2),"."))
+
+# 2 p value of file1$Abandon, filter(GenderList[i]) and file1$Abandon, filter(GenderList[j]) #Instead Male and Female. so IfElse not needed.
+       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," as estimated by male and female respondents is " , round(t.test(filter(file1,Gender=="Male")$Abandon,filter(file1,Gender=="Female")$Abandon)$p.value,2),"."))
+  }
+      for (i in 1:6){   
+       for (k in 1:2){
+       # for (n in 1:2){
+       # 3 Mean of file1$Abandon , filter(GenderList[i])
+writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per ",GenderList[k]," respondents is " ,round(mean(filter(file1,Gender==GenderList[k])$Abandon,na.rm=TRUE),2),".  "))
+
+ for (j in 1:6){
+   file2<-filter(mergedtest,mergedtest$Name==filelist[j])
+# 4 p value of file1$Abandon and file2$Abandon
+if(i == j) { ##Using Ifelse because WriteLines is an action.
+  0
+} else{
+      writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j]," is " ,round(t.test(file1$Abandon,file2$Abandon)$p.value,2),".  "))
+}
+
+ # 5 p value of file1$Abandon , filter(GenderList[i]) and file2$Abandon , filter(GenderList[i])
+if(i == j) {
+  0
+} else{
+  writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by ", GenderList[k]," respondents is " ,round(t.test(filter(file1,Gender==GenderList[k])$Abandon,filter(file2,Gender==GenderList[k])$Abandon)$p.value,2),"."))
+}
+ }}}
+#}
+
+```
+
+
+\section{Conclusion}
+
+The mean value of success for a startup founded by young females at `r round(mean(FemaleYoung$Success),2)` and the mean value of success for a startup founded by old females at `r round(mean(FemaleOld$Success),2)`. The p-value of the difference is `r round(t.test(FemaleOld$Success,FemaleYoung$Success)$p.value,2)`.
+
+
+
+The p value of the difference between probability of success estimated by male respondents for startups founded by older female founders and young female founders is `r round(t.test(filter(FemaleOld,Gender=="Male")$Success,filter(FemaleYoung,Gender=="Male")$Success)$p.value,2)`. We see that the p value is significant at 0.05 level. 
+
+The mean probability of abandoning in case of young males, as estimated by female respondents is `r round(mean(filter(MaleYoung,Gender=="Female")$Abandon,na.rm=TRUE),2)`.
+The mean probability of abandoning in case of young males, as estimated by male respondents is `r round(mean(filter(MaleYoung,Gender=="Male")$Abandon,na.rm=TRUE),2)`.
+The p value of the difference between the two is `r round(t.test(filter(MaleYoung,Gender=="Male")$Abandon,filter(MaleYoung,Gender=="Female")$Abandon)$p.value,2)`.
+
+
+We see a clear difference between the estimated probability of success for startups driven by young female founders versus those driven by old female founders. The difference is driven more by female respondents. We also see that there is no statistically significant difference in the estimated probability of abandoning the startup between older males and female founders. There is a difference in the estimated probability of abandoning the startup in case of young male founders. This is also driven by female respondents.
+
+1. Female founders= Education plays a role more, than in the case of males. This is also driven by female respondents. This means if a product is targetted towards
+2. Abandoning is not a problem in the case of females, as was being expected earlier. Good signal, social change.
+3. Abandoning by young males was considered a risk, especially by female respondents. This means a B2C product focussed on women, sold by a startup founded by young males, is less likely to work if it involves a longevity assumption on the part of the customer. Similarly in case of a B2B product, if the person on the buyer's side is a female, the startup founders should invest in signalling longevity, stability and their intent to stay along with a plan to sustain.
+
+
+We see that while there is no difference in the perception of succcess, funding or abandonment of a startup based on whether the founders are CASE 1 or CASE 2, we see that the perception of males and females varies. 
+A practical import of this would be
+* If the product is targetted towards females, Vs males
+* If the investor who is evaluating the startup for funding is a male Vs Female
+* (IN case of abandon), then the founders should spend time showing commitment
+* This could explain some difference between the funding obtained by women
+
+\section{Limitations}
+* Situation is dynamic
+* Investors might be more sophisticated and not be biased though extant research has shown otherwise \footnote{ADD Literature}
+
+###########Older Material ###############
+
+
+	\section{Limitations}
+		We do not analyse the results based on the background of the respondents. We take only discrete age variables. These can be extended to 52,53 and 62, 63 as well. 
+		We do not look at Foreign education.
+		We do not specify the role in government service. It is possible that a bureaucrat is respected much more than any other civil servant.
+		
+\section{ToDO}
+*   Correct Labels
+*   Write as per plan of View followed by Gender
+*   Write a separate one on familiarity.
