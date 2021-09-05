@@ -38,7 +38,7 @@ MaleIITIIM<-read.csv("MaleIITIIM.csv")
 MaleMidAge<-read.csv("MaleMidAge.csv")
 MaleOld<-read.csv("MaleOld.csv")
 MaleYoung<-read.csv("MaleYoung.csv")
-SuccessfulEmployee<-read.csv("SUccessfulEmployee.csv")
+SuccessfulEmployee<-read.csv("SuccessfulEmployee.csv")
 SuccessfulFounder<-read.csv("SuccessfulFounder.csv")
 #Rename ColumnNames
 colnames(FailedFounder) <-c("ResponseTime1","ResponseTime2","IP.Address","Age","Age.Range","Gender","Country","Success","Funding","Abandon")
@@ -247,42 +247,43 @@ I compare how probability of success changes with the age of the founders change
 parameter<-c("Success", "Funding", "Abandon") #as m
 m<-1
 GenderList<-c("Male", "Female") #as k and n
-
+filelist<-c("FemaleYoung","FemaleMidAge","FemaleOld","MaleYoung","MaleMidAge","MaleOld")
   for (i in 1:6){
-   
-     
-        filelist<-c("FemaleYoung","FemaleMidAge","FemaleOld","MaleYoung","MaleMidAge","MaleOld")
-        file1<-filter(mergedtest,mergedtest$Name==filelist[i])
         
+        file1<-filter(mergedtest,mergedtest$Name==filelist[i])
  # 1 Mean of file1$Success # where file1 and file2 are as above
 writeLines(paste0(" The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders is " ,round(mean(file1$Success,na.rm=TRUE),2),"."))
 
 # 2 p value of file1$Success, filter(GenderList[i]) and file1$Success, filter(GenderList[j]) #Instead Male and Female. so IfElse not needed.
-       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," as estimated by male and female respondents is " , round(t.test(filter(file1,Gender=="Male")$Success,filter(file1,Gender=="Female")$Success)$p.value,2),"."))
+       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " estimated by male respondents and female respondents for startups founded by ",filelist[i]," is " , round(t.test(filter(file1,Gender=="Male")$Success,filter(file1,Gender=="Female")$Success)$p.value,2),"."))
+       
+       writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per Malerespondents is " ,round(mean(filter(file1,Gender=="Male")$Success,na.rm=TRUE),2),".  "))
+       
+       writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per Female respondents is " ,round(mean(filter(file1,Gender=="Female")$Success,na.rm=TRUE),2),".  "))
   }
-      for (i in 1:6){   
-       for (k in 1:2){
-       # for (n in 1:2){
-       # 3 Mean of file1$Success , filter(GenderList[i])
-writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per ",GenderList[k]," respondents is " ,round(mean(filter(file1,Gender==GenderList[k])$Success,na.rm=TRUE),2),".  "))
 
- for (j in 1:6){
+
+for (i in 1:5){
+ for (j in (i+1):6){
+    file1<-filter(mergedtest,mergedtest$Name==filelist[i])
    file2<-filter(mergedtest,mergedtest$Name==filelist[j])
 # 4 p value of file1$Success and file2$Success
-if(i == j) { ##Using Ifelse because WriteLines is an action.
-  0
-} else{
-      writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j]," is " ,round(t.test(file1$Success,file2$Success)$p.value,2),".  "))
-}
 
- # 5 p value of file1$Success , filter(GenderList[i]) and file2$Success , filter(GenderList[i])
-if(i == j) {
-  0
-} else{
-  writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by ", GenderList[k]," respondents is " ,round(t.test(filter(file1,Gender==GenderList[k])$Success,filter(file2,Gender==GenderList[k])$Success)$p.value,2),"."))
-}
- }}}
-#}
+      writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j]," is " ,round(t.test(file1$Success,file2$Success)$p.value,2),".  "))
+ }}
+
+
+for (i in 1:5){
+  for (j in (i+1):6){
+    #for(k in 1:2){
+       file1<-filter(mergedtest,mergedtest$Name==filelist[i])
+       file2<-filter(mergedtest,mergedtest$Name==filelist[j])
+
+       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Male respondents is " ,round(t.test(filter(file1,Gender=="Male")$Success,filter(file2,Gender=="Male")$Success)$p.value,2),"."))
+       
+    writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Female respondents is " ,round(t.test(filter(file1,Gender=="Female")$Success,filter(file2,Gender=="Female")$Success)$p.value,2),"."))
+ }}
+
 
 ```
 
@@ -306,85 +307,47 @@ As visible in Figure \@ref(fig:boxgenderfundingedu), the estimation of the fundi
 parameter<-c("Success", "Funding", "Abandon") #as m
 m<-2
 GenderList<-c("Male", "Female") #as k and n
-
+  filelist<-c("FemaleYoung","FemaleMidAge","FemaleOld","MaleYoung","MaleMidAge","MaleOld")
   for (i in 1:6){
-   
-     
-        filelist<-c("FemaleYoung","FemaleMidAge","FemaleOld","MaleYoung","MaleMidAge","MaleOld")
+
         file1<-filter(mergedtest,mergedtest$Name==filelist[i])
-        
  # 1 Mean of file1$Funding # where file1 and file2 are as above
 writeLines(paste0(" The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders is " ,round(mean(file1$Funding,na.rm=TRUE),2),"."))
 
 # 2 p value of file1$Funding, filter(GenderList[i]) and file1$Funding, filter(GenderList[j]) #Instead Male and Female. so IfElse not needed.
-       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," as estimated by male and female respondents is " , round(t.test(filter(file1,Gender=="Male")$Funding,filter(file1,Gender=="Female")$Funding)$p.value,2),"."))
+       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " estimated by male and female respondents for startups founded by ",filelist[i]," is " , round(t.test(filter(file1,Gender=="Male")$Funding,filter(file1,Gender=="Female")$Funding)$p.value,2),"."))
+       
+       writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per Female respondents is " ,round(mean(filter(file1,Gender=="Female")$Funding,na.rm=TRUE),2),".  "))
+       
+       writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per Male respondents is " ,round(mean(filter(file1,Gender=="Male")$Funding,na.rm=TRUE),2),".  "))
+      
   }
-      for (i in 1:6){   
-       for (k in 1:2){
-       # for (n in 1:2){
-       # 3 Mean of file1$Funding , filter(GenderList[i])
-writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per ",GenderList[k]," respondents is " ,round(mean(filter(file1,Gender==GenderList[k])$Funding,na.rm=TRUE),2),".  "))
 
- for (j in 1:6){
-   file2<-filter(mergedtest,mergedtest$Name==filelist[j])
+for (i in 1:5){
+ for (j in (i+1):6){
+    file1<-filter(mergedtest,mergedtest$Name==filelist[i])
+    file2<-filter(mergedtest,mergedtest$Name==filelist[j])
 # 4 p value of file1$Funding and file2$Funding
-if(i == j) { ##Using Ifelse because WriteLines is an action.
-  0
-} else{
+
       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j]," is " ,round(t.test(file1$Funding,file2$Funding)$p.value,2),".  "))
-}
-print(paste("i=",i))
-print(paste("j=",j))
-print(paste("k=",k))
-print(paste("m=",m))
- # 5 p value of file1$Funding , filter(GenderList[i]) and file2$Funding , filter(GenderList[i])
-if(i == j) {
-  0
-} else{
-  writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Male respondents is " ,round(t.test(filter(file1,Gender=="Male")$Funding,filter(file2,Gender=="Male")$Funding)$p.value,2),"."))
-    writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Female respondents is " ,round(t.test(filter(file1,Gender=="Female")$Funding,filter(file2,Gender=="Female")$Funding)$p.value,2),"."))
-}
- }}}
-#}
+ }}
 
-round(
-  t.test(
-    filter(file1,Gender==GenderList[k])$Funding,
-    filter(file2,Gender==GenderList[k])$Funding)$
-    p.value,
-  2)
 
-round(
-  t.test(
-    filter(filter(mergedtest,mergedtest$Name==filelist[i]),Gender=="Male")$Funding,
-    filter(filter(mergedtest,mergedtest$Name==filelist[j]),Gender=="Male")$Funding)$
-    p.value,
-  2)
-length(filter(mergedtest,Name=="FemaleOld")$ResponseTime1)
-for (i in 1:6){
-  for (j in 1:6){
-    for(k in 1:2){
+for (i in 1:5){
+  for (j in (i+1):6){
+    #for(k in 1:2){
        file1<-filter(mergedtest,mergedtest$Name==filelist[i])
        file2<-filter(mergedtest,mergedtest$Name==filelist[j])
        
-       if(i == j) { ##Using Ifelse because WriteLines is an action.
-  0
-} else{
-      writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j]," is " ,round(t.test(file1$Funding,file2$Funding)$p.value,2),".  "))
-}
+#       if(i == j) { ##Using Ifelse because WriteLines is an action.
+#  0
+#} else{
+       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Male respondents is " ,round(t.test(filter(file1,Gender=="Male")$Funding,filter(file2,Gender=="Male")$Funding)$p.value,2),"."))
        
-       print(paste("i=",i))
-print(paste("j=",j))
-print(paste("k=",k))
-print(paste("m=",m))
-       if(i == j) {
-  0
-} else{
-       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by ", GenderList[k]," respondents is " ,round(t.test(filter(file1,Gender==GenderList[k])$Funding,filter(file2,Gender==GenderList[k])$Funding)$p.value,2),"."))
-    }}
-  }
-}
-
+       
+    writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Female respondents is " ,round(t.test(filter(file1,Gender=="Female")$Funding,filter(file2,Gender=="Female")$Funding)$p.value,2),"."))
+#}
+ }}
 
 ```
 
@@ -408,71 +371,81 @@ As visible in Figure \@ref(fig:boxgenderabandonedu), the estimation of the aband
 
 parameter<-c("Success", "Funding", "Abandon") #as m
 m<-3
-GenderList<-c("Male", "Female") #as k 
-
+GenderList<-c("Male", "Female") #as k and n
+  filelist<-c("FemaleYoung","FemaleMidAge","FemaleOld","MaleYoung","MaleMidAge","MaleOld")
   for (i in 1:6){
-   
-     
-        filelist<-c("FemaleYoung","FemaleMidAge","FemaleOld","MaleYoung","MaleMidAge","MaleOld")
+
         file1<-filter(mergedtest,mergedtest$Name==filelist[i])
         
- # 1 Mean of file1$Abandon # where file1 and file2 are as above
+ # 1 Mean of file1$Funding # where file1 and file2 are as above
 writeLines(paste0(" The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders is " ,round(mean(file1$Abandon,na.rm=TRUE),2),"."))
 
 # 2 p value of file1$Abandon, filter(GenderList[i]) and file1$Abandon, filter(GenderList[j]) #Instead Male and Female. so IfElse not needed.
        writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," as estimated by male and female respondents is " , round(t.test(filter(file1,Gender=="Male")$Abandon,filter(file1,Gender=="Female")$Abandon)$p.value,2),"."))
-  }
-      for (i in 1:6){   
-       for (k in 1:2){
-       # for (n in 1:2){
-       # 3 Mean of file1$Abandon , filter(GenderList[i])
-writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per ",GenderList[k]," respondents is " ,round(mean(filter(file1,Gender==GenderList[k])$Abandon,na.rm=TRUE),2),".  "))
+  writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per malerespondents is " ,round(mean(filter(file1,Gender=="Male")$Abandon,na.rm=TRUE),2),".  "))
+  writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per female respondents is " ,round(mean(filter(file1,Gender=="Female")$Abandon,na.rm=TRUE),2),".  "))
+       
+       }
 
- for (j in 1:6){
+for (i in 1:5){
+ for (j in (i+1):6){
+   file1<-filter(mergedtest,mergedtest$Name==filelist[i])
    file2<-filter(mergedtest,mergedtest$Name==filelist[j])
-# 4 p value of file1$Abandon and file2$Abandon
-if(i == j) { ##Using Ifelse because WriteLines is an action.
-  0
-} else{
-      writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j]," is " ,round(t.test(file1$Abandon,file2$Abandon)$p.value,2),".  "))
-}
 
- # 5 p value of file1$Abandon , filter(GenderList[i]) and file2$Abandon , filter(GenderList[i])
-if(i == j) {
-  0
-} else{
-  writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by ", GenderList[k]," respondents is " ,round(t.test(filter(file1,Gender==GenderList[k])$Abandon,filter(file2,Gender==GenderList[k])$Abandon)$p.value,2),"."))
-}
- }}}
-#}
+      writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j]," is " ,round(t.test(file1$Abandon,file2$Abandon)$p.value,2),".  "))
+ }}
+
+
+for (i in 1:5){
+  for (j in (i+1):6){
+    #for(k in 1:2){
+       file1<-filter(mergedtest,mergedtest$Name==filelist[i])
+       file2<-filter(mergedtest,mergedtest$Name==filelist[j])
+
+       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Male respondents is " ,round(t.test(filter(file1,Gender=="Male")$Abandon,filter(file2,Gender=="Male")$Abandon)$p.value,2),"."))
+    writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Female respondents is " ,round(t.test(filter(file1,Gender=="Female")$Abandon,filter(file2,Gender=="Female")$Abandon)$p.value,2),"."))
+ }}
+
 
 ```
 
 
 \section{Conclusion}
 
-The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge as estimated by male and female respondents is 0.02
-The p-value of the difference between estimated probability of Funding for startups founded by MaleOld as estimated by male and female respondents is 0.02
-The p-value of the difference between estimated probability of Funding for startups founded by FemaleYoung and FemaleMidAge as estimated by Male respondents is 0.02
-The p-value of the difference between estimated probability of Funding for startups founded by FemaleYoung and FemaleOld as estimated by Male respondents is 0.06.
-The p-value of the difference between estimated probability of Funding for startups founded by FemaleYoung and FemaleMidAge as estimated by Female respondents is 0.02
-The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge and FemaleYoung as estimated by Male respondents is 0.09
-The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge and FemaleOld as estimated by Male respondents is 0.06 ###How Come?
-The p-value of the difference between estimated probability of Funding for startups founded by FemaleOld and FemaleYoung as estimated by Male respondents is 0.09. 
-The p-value of the difference between estimated probability of Funding for startups founded by FemaleOld and FemaleMidAge as estimated by Male respondents is 0.02###How Come?
-The p-value of the difference between estimated probability of Funding for startups founded by FemaleOld and FemaleMidAge as estimated by Female respondents is 0.02
-The p-value of the difference between estimated probability of Funding for startups founded by MaleYoung and FemaleYoung as estimated by Male respondents is 0.09
-The p-value of the difference between estimated probability of Funding for startups founded by MaleYoung and FemaleMidAge as estimated by Male respondents is 0.02
-The p-value of the difference between estimated probability of Funding for startups founded by MaleYoung and FemaleOld as estimated by Male respondents is 0.06
-The p-value of the difference between estimated probability of Funding for startups founded by MaleYoung and FemaleMidAge as estimated by Female respondents is 0.02
-The p-value of the difference between estimated probability of Funding for startups founded by MaleMidAge and FemaleYoung as estimated by Male respondents is 0.09
-The p-value of the difference between estimated probability of Funding for startups founded by MaleMidAge and FemaleMidAge as estimated by Male respondents is 0.02
-The p-value of the difference between estimated probability of Funding for startups founded by MaleMidAge and FemaleOld as estimated by Male respondents is 0.06
-The p-value of the difference between estimated probability of Funding for startups founded by MaleMidAge and FemaleMidAge as estimated by Female respondents is 0.02
+\subsection{04Sep0100 hours}
+The p-value of the difference between estimated probability of Success for startups founded by FemaleMidAge and MaleYoung is 0.08.  
+The p-value of the difference between estimated probability of Success for startups founded by MaleYoung and FemaleMidAge is 0.08.  
+The p-value of the difference between estimated probability of Success for startups founded by FemaleYoung and FemaleMidAge as estimated by Female respondents is 0.04.
+The p-value of the difference between estimated probability of Success for startups founded by FemaleYoung and FemaleMidAge as estimated by Female respondents is 0.04.
+The p-value of the difference between estimated probability of Success for startups founded by FemaleMidAge and MaleYoung as estimated by Female respondents is 0.08.
+
+The p-value of the difference between estimated probability of Success for startups founded by MaleYoung and FemaleMidAge as estimated by Female respondents is 0.08
+The p-value of the difference between estimated probability of Funding estimated by male and female respondents for startups founded by FemaleMidAge is 0.02.  
+The p-value of the difference between estimated probability of Funding estimated by male and female respondents for startups founded by MaleOld is 0.02
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleYoung and FemaleMidAge as estimated by Female respondents is 0.01.
+
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleYoung and MaleOld as estimated by Male respondents is 0.09.
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge and FemaleYoung as estimated by Female respondents is 0.01.
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge and MaleMidAge as estimated by Male respondents is 0.09.  
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge and MaleOld as estimated by Male respondents is 0.02.
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge and MaleOld as estimated by Female respondents is 0.02
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleOld and MaleOld as estimated by Male respondents is 0.06.
+
+The p-value of the difference between estimated probability of Funding for startups founded by MaleMidAge and FemaleMidAge as estimated by Male respondents is 0.09.
 The p-value of the difference between estimated probability of Funding for startups founded by MaleOld and FemaleYoung as estimated by Male respondents is 0.09.
-The p-value of the difference between estimated probability of Funding for startups founded by MaleOld and FemaleMidAge as estimated by Male respondents is 0.02.
-The p-value of the difference between estimated probability of Funding for startups founded by MaleOld and FemaleOld as estimated by Male respondents is 0.06
+The p-value of the difference between estimated probability of Funding for startups founded by MaleOld and FemaleMidAge as estimated by Male respondents is 0.02.  
 The p-value of the difference between estimated probability of Funding for startups founded by MaleOld and FemaleMidAge as estimated by Female respondents is 0.02.
+The p-value of the difference between estimated probability of Funding for startups founded by MaleOld and FemaleOld as estimated by Male respondents is 0.06.
+The p-value of the difference between estimated probability of Abandon for startups founded by FemaleOld and MaleYoung is 0.04.
+The p-value of the difference between estimated probability of Abandon for startups founded by MaleYoung and FemaleOld is 0.04.
+
+The p-value of the difference between estimated probability of Abandon for startups founded by FemaleMidAge and FemaleOld as estimated by Male respondents is 0.06.
+The p-value of the difference between estimated probability of Abandon for startups founded by FemaleOld and FemaleMidAge as estimated by Male respondents is0.06.
+The p-value of the difference between estimated probability of Abandon for startups founded by FemaleOld and MaleYoung as estimatedby Male respondents is 0.04.
+The p-value of the difference between estimated probability of Abandon for startups founded by FemaleOldand MaleMidAge as estimated by Male respondents is 0.06.
+The p-value of the difference between estimated probability of Abandon for startups founded by MaleYoung and FemaleOld as estimated by Male respondents is 0.04.
+The p-value of the difference between estimated probability of Abandon for startups founded by MaleMidAge and FemaleOld as estimated by Male respondents is 0.06.
+
 
 
 We see a clear difference between the estimated probability of success for startups driven by young female founders versus those driven by old female founders. The difference is driven more by female respondents. We also see that there is no statistically significant difference in the estimated probability of abandoning the startup between older males and female founders. There is a difference in the estimated probability of abandoning the startup in case of young male founders. This is also driven by female respondents.
