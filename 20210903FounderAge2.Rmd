@@ -8,7 +8,7 @@ output:
     toc: no
     number_sections: yes
     keep_tex: yes
-abstract: "I look at the perception of educational background of startup founders. EDIT HERE. I find a difference between the estimated probability of success for startups driven by school educated female founders versus those driven by highly educated female founders(higher). The difference is driven more by female respondents. We dont find any statistically significant difference in the estimated probability of abandoning the startup between males and female founders. There is a difference in the estimated probability of school educated male founders abandoning the startup in case of female respondents vs male respondents(higher). This is also driven by female respondents. This research suggests specific steps for founders while pitching to customers/buyers. "
+abstract: "I look at the perception of the age of startup founders. I find that founders in their early thirties are less likely to succeed and get funded and more likely to abandon. Females rated female founders aged 32,33 as consistently lower than 22,23-year-old female founders to succeed. Males in their early twenties were more likely to abandon their startup than females in their early forties. This points to a stronger perceived bias within females than with the general population which could have social reasons. Male respondents felt that 32,33 year old male founders were more likely to abandon their startup as compared to 32,33-year-old females. This research suggests specific steps for founders while pitching to customers/buyers. "
 documentclass: "article"
 editor_options: 
   chunk_output_type: console
@@ -98,8 +98,6 @@ mergedtest<-merge(mergedtest,MaleMidAge, all.x=TRUE, all.y=TRUE)
 
 ```
 
-
-
 ``` {r junk, echo=FALSE,  }
 
 #*	 Education : DONE
@@ -132,8 +130,17 @@ mergedtest<-merge(mergedtest,MaleMidAge, all.x=TRUE, all.y=TRUE)
 ```
 
 \section{Introduction}
-TODO:1
-I Look at the perception of  founder age measured by the probability of funding, probability of success and probability of abandonment of the startup. I find that there is no difference in ABC. I look at the gender of the respondents as well and find that there is a difference in BCD between male and female respondents. Perception is important because it leads to ABC \footnote{CITE LITERATURE HERE}.  #EDIT THIS
+TODO:1: Reread, sanitation
+
+
+I Look at the perception of  founder age measured by the probability of funding, probability of success and probability of abandonment of the startup. 
+Younger males are more likely to succeed than MidAge females. Surprisingly females are driving this. It could be because 31,32 is the age for going the family way. This is evident in the fact that they rate 21,22 year old female founders as more likely to succeed, even more than YoungMale.
+
+Consistently females have estimated the probability of funding for a startup founded by 31,32 year old females as much lower than that estimated by male respondents. Funding is a measure of how respondents feel investors would perceive the startup/founders. This means female respondents feel that investors would also not value 31,32 year old female founders, as opposed to male respondents. The estimate of female respondents for a startup founded by 21,22 year old females is higher than that of a startup founded by 31,32 year old females.
+
+Male respondents felt that the probability of funding for a startup founded by young females was higher than that founded by older males. Surprisingly males also felt the probability of funding for a startup founded by 32,33 year old female founders was higher than that of a startup founded by 32,33 year old males. Their estimate for funding probability for older males was lower than that of 32,33 year old female founders also. On the contrary, female respondents felt that the probability of 42,43 year old males getting funded for their startup was higher than that of a startup founded by 32,33 year old females.
+
+22,23 year old males were more likely to abandon their startup than 42,43 year old females. Males estimated that 32,33 year old females were more likely to abandon their startup as compared to 42,43 year old female founders who were also less likely than 22,23 year old males to abandon theirs. Surprisingly male respondents felt that 32,33 year old males were more likely than 32,33 year old females to abandon their startup. Perception is important because it leads to ABC \footnote{CITE LITERATURE HERE}.  #EDIT THIS
 
 \section{Literature Review}
 ADD CONTENT
@@ -204,7 +211,7 @@ print(visalledu)
 ```{r funding1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxfundingage}This box plot shows the probablity of funding as estimated across males and females and different age levels.",message=FALSE,warning=FALSE}
 visalledu<-ggplot(mergedtest[mergedtest$Name=="FemaleOld" |mergedtest$Name=="FemaleMidAge"| mergedtest$Name=="FemaleYoung"| mergedtest$Name=="MaleOld" | mergedtest$Name=="MaleMidAge"| mergedtest$Name=="MaleYoung",],aes(Name,Funding))
 visalledu<-visalledu+geom_boxplot()
-visalledu<-visalledu+labs(title ="Boxplot of estimated success probability",x="Category",y="Probability of Funding")
+visalledu<-visalledu+labs(title ="Boxplot of estimated funding probability",x="Category",y="Probability of Funding")
 print(visalledu)
 #\caption{This box plot shows the probablity of success as estimated across males and females and different education levels}
 #\label{boxsuccessalleducation}
@@ -223,6 +230,118 @@ print(visalledu)
 #\caption{This box plot shows the probablity of abandoning as estimated across males and females and different education levels}
 #\label{boxabandoningalleducation}
 #\end{figure}
+```
+
+
+
+```{r multievaluatesignificantgender, results='asis', null_prefix=TRUE,echo=FALSE, warning=FALSE,error=FALSE,eval=FALSE}
+
+
+GenderList<-c("Male", "Female") #as k and n
+filelist<-c("FemaleYoung","FemaleMidAge","FemaleOld","MaleYoung","MaleMidAge","MaleOld")
+ 
+parameter<-c("Success", "Funding", "Abandon") #as m
+m<-1
+for (i in 1:5){
+   file1<-filter(mergedtest,mergedtest$Name==filelist[i])
+      if(round(t.test(filter(file1,Gender=="Male")$Success,filter(file1,Gender=="Female")$Success)$p.value<0.1)){
+   writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," as estimated by male and female respondents is " , round(t.test(filter(file1,Gender=="Male")$Success,filter(file1,Gender=="Female")$Success)$p.value,2),"."))
+   }
+ for (j in (i+1):6){
+    file1<-filter(mergedtest,mergedtest$Name==filelist[i])
+   file2<-filter(mergedtest,mergedtest$Name==filelist[j])
+# 4 p value of file1$Success and file2$Success
+if(round(t.test(file1$Success,file2$Success)$p.value,2)<0.1){
+      writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j]," is " ,round(t.test(file1$Success,file2$Success)$p.value,2),".  "))
+}
+   
+
+ }}
+
+for (i in 1:5){
+   file1<-filter(mergedtest,mergedtest$Name==filelist[i])
+  for (j in (i+1):6){
+    #for(k in 1:2){
+      
+       file2<-filter(mergedtest,mergedtest$Name==filelist[j])
+
+if(round(t.test(filter(file1,Gender=="Male")$Success,filter(file2,Gender=="Male")$Success)$p.value,2) < 0.1){
+       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Male respondents is " ,round(t.test(filter(file1,Gender=="Male")$Success,filter(file2,Gender=="Male")$Success)$p.value,2),"."))
+}
+  
+if(round(t.test(filter(file1,Gender=="Female")$Success,filter(file2,Gender=="Female")$Success)$p.value,2) < 0.1){
+     writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Female respondents is " ,round(t.test(filter(file1,Gender=="Female")$Success,filter(file2,Gender=="Female")$Success)$p.value,2),"."))
+}       
+   
+ }}
+###Funding
+m<-2
+for (i in 1:5){
+   file1<-filter(mergedtest,mergedtest$Name==filelist[i])
+  if(round(t.test(filter(file1,Gender=="Male")$Funding,filter(file1,Gender=="Female")$Funding)$p.value<0.1)){
+   writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," as estimated by male and female respondents is " , round(t.test(filter(file1,Gender=="Male")$Funding,filter(file1,Gender=="Female")$Funding)$p.value,2),"."))
+   }
+ for (j in (i+1):6){
+   
+   file2<-filter(mergedtest,mergedtest$Name==filelist[j])
+# 4 p value of file1$Funding and file2$Funding
+if(round(t.test(file1$Funding,file2$Funding)$p.value,2)<0.1){
+      writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j]," is " ,round(t.test(file1$Funding,file2$Funding)$p.value,2),".  "))
+}
+    
+ }}
+
+for (i in 1:5){
+  for (j in (i+1):6){
+    #for(k in 1:2){
+       file1<-filter(mergedtest,mergedtest$Name==filelist[i])
+       file2<-filter(mergedtest,mergedtest$Name==filelist[j])
+
+if(round(t.test(filter(file1,Gender=="Male")$Funding,filter(file2,Gender=="Male")$Funding)$p.value,2) < 0.1){
+       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Male respondents is " ,round(t.test(filter(file1,Gender=="Male")$Funding,filter(file2,Gender=="Male")$Funding)$p.value,2),"."))
+}
+  
+if(round(t.test(filter(file1,Gender=="Female")$Funding,filter(file2,Gender=="Female")$Funding)$p.value,2) < 0.1){
+     writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Female respondents is " ,round(t.test(filter(file1,Gender=="Female")$Funding,filter(file2,Gender=="Female")$Funding)$p.value,2),"."))
+}       
+   
+ }}
+
+###Abandon
+m<-3
+
+for (i in 1:5){
+   file1<-filter(mergedtest,mergedtest$Name==filelist[i])
+   if(round(t.test(filter(file1,Gender=="Male")$Abandon,filter(file1,Gender=="Female")$Abandon)$p.value<0.1)){
+   writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," as estimated by male and female respondents is " , round(t.test(filter(file1,Gender=="Male")$Abandon,filter(file1,Gender=="Female")$Abandon)$p.value,2),"."))
+   }
+ for (j in (i+1):6){
+   
+   file2<-filter(mergedtest,mergedtest$Name==filelist[j])
+# 4 p value of file1$Abandon and file2$Abandon
+if(round(t.test(file1$Abandon,file2$Abandon)$p.value,2)<0.1){
+      writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j]," is " ,round(t.test(file1$Abandon,file2$Abandon)$p.value,2),".  "))
+}
+   
+  
+ }}
+
+for (i in 1:5){
+  for (j in (i+1):6){
+    #for(k in 1:2){
+       file1<-filter(mergedtest,mergedtest$Name==filelist[i])
+       file2<-filter(mergedtest,mergedtest$Name==filelist[j])
+
+if(round(t.test(filter(file1,Gender=="Male")$Abandon,filter(file2,Gender=="Male")$Abandon)$p.value,2) < 0.1){
+       writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Male respondents is " ,round(t.test(filter(file1,Gender=="Male")$Abandon,filter(file2,Gender=="Male")$Abandon)$p.value,2),"."))
+}
+  
+if(round(t.test(filter(file1,Gender=="Female")$Abandon,filter(file2,Gender=="Female")$Abandon)$p.value,2) < 0.1){
+     writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," and ",filelist[j], " as estimated by Female respondents is " ,round(t.test(filter(file1,Gender=="Female")$Abandon,filter(file2,Gender=="Female")$Abandon)$p.value,2),"."))
+}       
+   
+ }}
+
 ```
 
 
@@ -293,7 +412,7 @@ SEE ABOVE THIS LINE.
 ```{r genderfunding1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxgenderfundingedu}This box plot shows the probablity of funding as estimated by males and females across male and female founders with different age levels.",message=FALSE,warning=FALSE}
 visalledu<-ggplot(mergedtest[mergedtest$Name=="FemaleOld" |mergedtest$Name=="FemaleMidAge"| mergedtest$Name=="FemaleYoung"| mergedtest$Name=="MaleOld" | mergedtest$Name=="MaleMidAge"| mergedtest$Name=="MaleYoung",],aes(Name,Funding))
 visalledu<-visalledu+geom_boxplot(aes(colour = Gender))
-visalledu<-visalledu+labs(title ="Boxplot of estimated success probability",x="Category",y="Probability of Funding")
+visalledu<-visalledu+labs(title ="Boxplot of estimated funding probability",x="Category",y="Probability of Funding")
 print(visalledu)
 #\caption{This box plot shows the probablity of success as estimated across males and females and different education levels}
 #\label{boxsuccessalleducation}
@@ -382,7 +501,7 @@ writeLines(paste0(" The mean estimate of ",parameter[m], " of a startup founded 
 
 # 2 p value of file1$Abandon, filter(GenderList[i]) and file1$Abandon, filter(GenderList[j]) #Instead Male and Female. so IfElse not needed.
        writeLines(paste0( "The p-value of the difference between estimated probability of ",parameter[m], " for startups founded by ",filelist[i]," as estimated by male and female respondents is " , round(t.test(filter(file1,Gender=="Male")$Abandon,filter(file1,Gender=="Female")$Abandon)$p.value,2),"."))
-  writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per malerespondents is " ,round(mean(filter(file1,Gender=="Male")$Abandon,na.rm=TRUE),2),".  "))
+  writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per male respondents is " ,round(mean(filter(file1,Gender=="Male")$Abandon,na.rm=TRUE),2),".  "))
   writeLines(paste0("The mean estimate of ",parameter[m], " of a startup founded by ", filelist[i], " founders as per female respondents is " ,round(mean(filter(file1,Gender=="Female")$Abandon,na.rm=TRUE),2),".  "))
        
        }
@@ -412,52 +531,46 @@ for (i in 1:5){
 
 \section{Conclusion}
 
-\subsection{04Sep0100 hours}
-The p-value of the difference between estimated probability of Success for startups founded by FemaleMidAge and MaleYoung is 0.08.  
-The p-value of the difference between estimated probability of Success for startups founded by MaleYoung and FemaleMidAge is 0.08.  
-The p-value of the difference between estimated probability of Success for startups founded by FemaleYoung and FemaleMidAge as estimated by Female respondents is 0.04.
+The p-value of the difference between estimated probability of Success for startups founded by FemaleMidAge and MaleYoung is 0.08.
 The p-value of the difference between estimated probability of Success for startups founded by FemaleYoung and FemaleMidAge as estimated by Female respondents is 0.04.
 The p-value of the difference between estimated probability of Success for startups founded by FemaleMidAge and MaleYoung as estimated by Female respondents is 0.08.
 
-The p-value of the difference between estimated probability of Success for startups founded by MaleYoung and FemaleMidAge as estimated by Female respondents is 0.08
-The p-value of the difference between estimated probability of Funding estimated by male and female respondents for startups founded by FemaleMidAge is 0.02.  
-The p-value of the difference between estimated probability of Funding estimated by male and female respondents for startups founded by MaleOld is 0.02
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge as estimated by male and female respondents is 0.02.
 The p-value of the difference between estimated probability of Funding for startups founded by FemaleYoung and FemaleMidAge as estimated by Female respondents is 0.01.
-
 The p-value of the difference between estimated probability of Funding for startups founded by FemaleYoung and MaleOld as estimated by Male respondents is 0.09.
-The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge and FemaleYoung as estimated by Female respondents is 0.01.
-The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge and MaleMidAge as estimated by Male respondents is 0.09.  
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge and MaleMidAge as estimated by Male respondents is 0.09.
 The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge and MaleOld as estimated by Male respondents is 0.02.
-The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge and MaleOld as estimated by Female respondents is 0.02
+The p-value of the difference between estimated probability of Funding for startups founded by FemaleMidAge and MaleOld as estimated by Female respondents is 0.02.
 The p-value of the difference between estimated probability of Funding for startups founded by FemaleOld and MaleOld as estimated by Male respondents is 0.06.
 
-The p-value of the difference between estimated probability of Funding for startups founded by MaleMidAge and FemaleMidAge as estimated by Male respondents is 0.09.
-The p-value of the difference between estimated probability of Funding for startups founded by MaleOld and FemaleYoung as estimated by Male respondents is 0.09.
-The p-value of the difference between estimated probability of Funding for startups founded by MaleOld and FemaleMidAge as estimated by Male respondents is 0.02.  
-The p-value of the difference between estimated probability of Funding for startups founded by MaleOld and FemaleMidAge as estimated by Female respondents is 0.02.
-The p-value of the difference between estimated probability of Funding for startups founded by MaleOld and FemaleOld as estimated by Male respondents is 0.06.
-The p-value of the difference between estimated probability of Abandon for startups founded by FemaleOld and MaleYoung is 0.04.
-The p-value of the difference between estimated probability of Abandon for startups founded by MaleYoung and FemaleOld is 0.04.
-
+The p-value of the difference between estimated probability of Abandon for startups founded by FemaleOld and MaleYoung is 0.04. 
 The p-value of the difference between estimated probability of Abandon for startups founded by FemaleMidAge and FemaleOld as estimated by Male respondents is 0.06.
-The p-value of the difference between estimated probability of Abandon for startups founded by FemaleOld and FemaleMidAge as estimated by Male respondents is0.06.
-The p-value of the difference between estimated probability of Abandon for startups founded by FemaleOld and MaleYoung as estimatedby Male respondents is 0.04.
-The p-value of the difference between estimated probability of Abandon for startups founded by FemaleOldand MaleMidAge as estimated by Male respondents is 0.06.
-The p-value of the difference between estimated probability of Abandon for startups founded by MaleYoung and FemaleOld as estimated by Male respondents is 0.04.
-The p-value of the difference between estimated probability of Abandon for startups founded by MaleMidAge and FemaleOld as estimated by Male respondents is 0.06.
+The p-value of the difference between estimated probability of Abandon for startups founded by FemaleOld and MaleYoung as estimated by Male respondents is 0.04.
+The p-value of the difference between estimated probability of Abandon for startups founded by FemaleOld and MaleMidAge as estimated by Male respondents is 0.06.
 
+Younger males are more likely to success than MidAge females. Surprisingly females are driving this. It could be because 31,32 is the age for going the family way. This is evident in the fact that they rate 21,22 year old female founders as more likely to succeed, even more than YoungMale.
+
+Consistently females have estimated the probability of funding for a startup founded by 31,32 year old females as much lower than that estimated by male respondents. Funding is a measure of how respondents feel investors would perceive the startup/founders. This means female respondents feel that investors would also not value 31,32 year old female founders, as opposed to male respondents. The estimate of female respondents for a startup founded by 21,22 year old females is higher than that of a startup founded by 31,32 year old females.
+
+Male respondents felt that the probability of funding for a startup founded by young females was higher than that founded by older males. Surprisingly males also felt the probability of funding for a startup founded by 32,33 year old female founders was higher than that of a startup founded by 32,33 year old males. Their estimate for funding probability for older males was lower than that of 32,33 year old female founders also. On the contrary, female respondents felt that the probability of 42,43 year old males getting funded for their startup was higher than that of a startup founded by 32,33 year old females.
+
+22,23 year old males were more likely to abandon their startup than 42,43 year old females. Males estimated that 32,33 year old females were more likely to abandon their startup as compared to 42,43 year old female founders who were also less likely than 22,23 year old males to abandon theirs. Surprisingly male respondents felt that 32,33 year old males were more likely than 32,33 year old females to abandon their startup.
+
+
+
+\subsection{Older}
 
 
 We see a clear difference between the estimated probability of success for startups driven by young female founders versus those driven by old female founders. The difference is driven more by female respondents. We also see that there is no statistically significant difference in the estimated probability of abandoning the startup between older males and female founders. There is a difference in the estimated probability of abandoning the startup in case of young male founders. This is also driven by female respondents.
 
-1. Female founders= Education plays a role more, than in the case of males. This is also driven by female respondents. This means if a product is targetted towards
+1. Female founders= Education plays a role more, than in the case of males. This is also driven by female respondents. This means if a product is targeted towards
 2. Abandoning is not a problem in the case of females, as was being expected earlier. Good signal, social change.
-3. Abandoning by young males was considered a risk, especially by female respondents. This means a B2C product focussed on women, sold by a startup founded by young males, is less likely to work if it involves a longevity assumption on the part of the customer. Similarly in case of a B2B product, if the person on the buyer's side is a female, the startup founders should invest in signalling longevity, stability and their intent to stay along with a plan to sustain.
+3. Abandoning by young males was considered a risk, especially by female respondents. This means a B2C product focused on women, sold by a startup founded by young males, is less likely to work if it involves a longevity assumption on the part of the customer. Similarly in case of a B2B product, if the person on the buyer's side is a female, the startup founders should invest in signalling longevity, stability and their intent to stay along with a plan to sustain.
 
 
-We see that while there is no difference in the perception of succcess, funding or abandonment of a startup based on whether the founders are CASE 1 or CASE 2, we see that the perception of males and females varies. 
+We see that while there is no difference in the perception of success, funding or abandonment of a startup based on whether the founders are CASE 1 or CASE 2, we see that the perception of males and females varies. 
 A practical import of this would be
-* If the product is targetted towards females, Vs males
+* If the product is targeted towards females, Vs males
 * If the investor who is evaluating the startup for funding is a male Vs Female
 * (IN case of abandon), then the founders should spend time showing commitment
 * This could explain some difference between the funding obtained by women
