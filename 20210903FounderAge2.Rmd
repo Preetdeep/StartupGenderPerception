@@ -2,16 +2,20 @@
 title: "Perception of Founders' Age in Startups"
 author: "Dr Preet Deep Singh"
 affiliation: "Invest India"
-date: "03/09/2021"
+date: "08/09/2021"
 output: 
   bookdown::pdf_document2:
     toc: no
+    citation_package: natbib
     number_sections: yes
     keep_tex: yes
 abstract: "I look at the perception of the age of startup founders. I find that founders in their early thirties are less likely to succeed and get funded and more likely to abandon. Females rated female founders aged 32,33 as consistently lower than 22,23-year-old female founders to succeed. Males in their early twenties were more likely to abandon their startup than females in their early forties. This points to a stronger perceived bias within females than with the general population which could have social reasons. Male respondents felt that 32,33 year old male founders were more likely to abandon their startup as compared to 32,33-year-old females. This research suggests specific steps for founders while pitching to customers/buyers. "
 documentclass: "article"
 editor_options: 
   chunk_output_type: console
+bibliography: references.bib
+link-citations: true
+csl: apa.csl
 ---
 
 
@@ -131,9 +135,9 @@ mergedtest<-merge(mergedtest,MaleMidAge, all.x=TRUE, all.y=TRUE)
 
 \section{Introduction}
 TODO:1: Reread, sanitation
+biblio-style: "apalike"
 
-
-I Look at the perception of  founder age measured by the probability of funding, probability of success and probability of abandonment of the startup. 
+I take reference from @singh2021perception1, @singh2021perception3 and Look at the perception of  founder age measured by the probability of funding, probability of success and probability of abandonment of the startup. 
 Younger males are more likely to succeed than MidAge females. Surprisingly females are driving this. It could be because 31,32 is the age for going the family way. This is evident in the fact that they rate 21,22 year old female founders as more likely to succeed, even more than YoungMale.
 
 Consistently females have estimated the probability of funding for a startup founded by 31,32 year old females as much lower than that estimated by male respondents. Funding is a measure of how respondents feel investors would perceive the startup/founders. This means female respondents feel that investors would also not value 31,32 year old female founders, as opposed to male respondents. The estimate of female respondents for a startup founded by 21,22 year old females is higher than that of a startup founded by 31,32 year old females.
@@ -591,3 +595,4 @@ A practical import of this would be
 *   Correct Labels
 *   Write as per plan of View followed by Gender
 *   Write a separate one on familiarity.
+

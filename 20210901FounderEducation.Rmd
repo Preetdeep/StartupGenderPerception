@@ -6,12 +6,16 @@ date: "03/09/2021"
 output: 
   bookdown::pdf_document2:
     toc: no
+    citation_package: natbib
     number_sections: yes
     keep_tex: yes
 abstract: "I look at the perception of educational background of startup founders. I find a difference between the estimated probability of success for startups driven by school educated female founders versus those driven by highly educated female founders(higher). The difference is driven more by female respondents. We dont find any statistically significant difference in the estimated probability of abandoning the startup between males and female founders. There is a difference in the estimated probability of school educated male founders abandoning the startup in case of female respondents vs male respondents(higher). This is also driven by female respondents. This research suggests specific steps for founders while pitching to customers/buyers. "
 documentclass: "article"
 editor_options: 
   chunk_output_type: console
+bibliography: references.bib
+link-citations: true
+csl: apa.csl
 ---
 
 
@@ -133,7 +137,7 @@ mergedtest<-merge(mergedtest,MaleMidAge, all.x=TRUE, all.y=TRUE)
 
 \section{Introduction}
 
-I Look at the perception of  founder education measured by the probability of funding, probability of success and probability of abandonment of the startup. I find that there is no difference in ABC. I look at the gender of the respondents as well and find that there is a difference in BCD between male and female respondents. Perception is important because it leads to ABC \footnote{CITE LITERATURE HERE}.  #EDIT THIS
+Following @singh2021perception1, I Look at the perception of  founder education measured by the probability of funding, probability of success and probability of abandonment of the startup. I find that there is no difference in ABC. I look at the gender of the respondents as well and find that there is a difference in BCD between male and female respondents. Perception is important because it leads to ABC \footnote{CITE LITERATURE HERE}.  #EDIT THIS
 
 \section{Literature Review}
 ADD CONTENT
