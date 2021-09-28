@@ -1,5 +1,5 @@
 ---
-title: "Perception of Founders' Background in Startups"
+title: "To start-up or to work in a Startup"
 author: "Dr Preet Deep Singh"
 affiliation: "Invest India"
 date: "28/09/2021"
@@ -9,7 +9,7 @@ output:
     citation_package: natbib
     number_sections: yes
     keep_tex: yes
-abstract: "I look at the perception of the background of startup founders. We look at founders who were employees in a successful startup or founders in a failed/successful startup. We examine whether these backgrounds are affected by the gender of the founder.  ADD MORE This research suggests specific steps for founders while pitching to customers/buyers. "
+abstract: "I look at the perception of the background of startup founders. We look at founders who were employees in a successful startup or founders in a failed/successful startup. We find that success is sticky and previous success improves predicted success but it is true for employees and founders alike. Failed Female founders are judged more harshly. We provide valuable insight to fresh graduates who face the dilemma to startup or to work in a startup. "
 documentclass: "article"
 editor_options: 
   chunk_output_type: console
@@ -134,12 +134,15 @@ mergedtest<-merge(mergedtest,MaleMidAge, all.x=TRUE, all.y=TRUE)
 ```
 
 \section{Introduction}
-TODO:1: Reread, sanitation
-
 
 I take reference from @singh2021perception1, @singh2021perception3 and look at the perception of founders' background. We use administer three different cases to participants, each containing one of the three backgrounds of startup founders: Founder in a failed startup, founder in a successful startup and employee in a successful startup. We ask participants to estimate the probability of funding, probability of success and probability of abandonment of the startup. We separately examine the three estimates based on the gender of the founders. 
 
+Our results suggest that a founder who has been an employee in a successful company is expected to succeed as much as a founder who founded a successful company earlier. I also see that successful founders receive a higher expected success probability than previously failed founders with the impact being harder for failed female founders.
+
+We conclude by sharing a piece of advice to counter the dilemma to start-up or to work in a startup: Work. This is helpful for people who feel that they would want to start up on their own at some point in their life.
 RESULTS
+
+TODO:1: Reread, sanitation
 \section{Literature Review}
 ADD CONTENT
 		
@@ -156,8 +159,6 @@ Startups are different from traditional businesses. Most of the times they have 
   Hot stuff. News captures. How others/investors would perceive the founders and the startup.
 \subsubsection{Abandonment}
   Associated with females that they might leave the startup due to societal pressure, matrimony or family needs.
-\subsubsection{Age}
-The founders across cases are aged 22,23 years (Case 1); 32,33 years (Case 2); and 42,43 years (Case 3). We 
 
 \subsection{Method}
   We administered a survey to 300 participants. They were divided in six groups. Each group was given an identical case study of a startup and were asked to estimate the probability of success, probability of funding and probability of abandoning the startup. Each group had one of five cases as given below. 
@@ -186,9 +187,9 @@ stargazer(select(MaleFailedFounder,-Age),title =  "This tables shows the summary
 Graph on average results. 
 
 \subsection{Success}
-We look at the values for probability of success as estimated by our respondents across various age groups.
+We look at the values for probability of success as estimated by our respondents across various backgrounds.
 
-```{r success1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxsuccessage}This box plot shows the probablity of success as estimated across males and females and different age lvels", warning=FALSE}
+```{r success1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxsuccessage}This box plot shows the probablity of success as estimated across males and females and different backgrounds.", warning=FALSE}
 library(ggplot2)
 visalledu<-ggplot(mergedtest[mergedtest$Name=="SuccessfulEmployee" |mergedtest$Name=="SuccessfulFounder"| mergedtest$Name=="FailedFounder"| mergedtest$Name=="MaleFailedFounder" | mergedtest$Name=="FemaleFailedFounder",],aes(Name,Success))
 visalledu<-visalledu+geom_boxplot()
@@ -204,7 +205,7 @@ print(visalledu)
 \subsection{Funding}
 
 
-```{r funding1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxfundingage}This box plot shows the probablity of funding as estimated across males and females and different age levels.",message=FALSE,warning=FALSE}
+```{r funding1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxfundingage}This box plot shows the probablity of funding as estimated across males and females and different backgrounds.",message=FALSE,warning=FALSE}
 visalledu<-ggplot(mergedtest[mergedtest$Name=="SuccessfulEmployee" |mergedtest$Name=="SuccessfulFounder"| mergedtest$Name=="FailedFounder"| mergedtest$Name=="MaleFailedFounder" | mergedtest$Name=="FemaleFailedFounder",],aes(Name,Funding))
 visalledu<-visalledu+geom_boxplot()
 visalledu<-visalledu+labs(title ="Boxplot of estimated funding probability",x="Category",y="Probability of Funding")
@@ -218,7 +219,7 @@ print(visalledu)
 
 \subsection{Abandonment}
 
-```{r abandon1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxabandonedu}This box plot shows the probablity of abandoning as estimated across males and females and different age levels.",message=FALSE,warning=FALSE}
+```{r abandon1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxabandonedu}This box plot shows the probablity of abandoning as estimated across males and females and different backgrounds.",message=FALSE,warning=FALSE}
 visalledu<-ggplot(mergedtest[mergedtest$Name=="SuccessfulEmployee" |mergedtest$Name=="SuccessfulFounder"| mergedtest$Name=="FailedFounder"| mergedtest$Name=="MaleFailedFounder" | mergedtest$Name=="FemaleFailedFounder",],aes(Name,Abandon))
 visalledu<-visalledu+geom_boxplot()
 visalledu<-visalledu+labs(title ="Boxplot of estimated abandoning probability",x="Category",y="Probability of Abandon")
@@ -343,19 +344,26 @@ if(round(t.test(filter(file1,Gender=="Female")$Abandon,filter(file2,Gender=="Fem
 
 \subsection{Gender wise break up}
 \subsubsection{Success}
-```{r gendersuccess1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxgendersuccessage}This box plot shows the probablity of success as estimated by males and females across male and female founders with different education levels.",message=FALSE,warning=FALSE}
+```{r gendersuccess1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxgendersuccessback}This box plot shows the probablity of success as estimated by males and females across male and female founders with different backgrounds.",message=FALSE,warning=FALSE}
 library(ggplot2)
 visalledu<-ggplot(mergedtest[mergedtest$Name=="SuccessfulEmployee" |mergedtest$Name=="SuccessfulFounder"| mergedtest$Name=="FailedFounder"| mergedtest$Name=="MaleFailedFounder" | mergedtest$Name=="FemaleFailedFounder",],aes(Name,Success))
 visalledu<-visalledu+geom_boxplot(aes(colour = Gender))
 visalledu<-visalledu+labs(title ="Boxplot of estimated success probability",x="Category",y="Probability of Success")
 print(visalledu)
-#\caption{This box plot shows the probablity of success as estimated across males and females and different education levels}
-#\label{boxsuccessalleducation}
-#\end{figure}
-```
 
+```
+As visible in Figure \@ref(fig:boxgendersuccessback), the estimation of the success of the startup also varies as per the gender of the respondent. 
 
 I compare how probability of success changes with the background of the founders changes with the gender of the respondents. 
+The p-value of the difference between estimated probability of Success estimated by male respondents and female respondents for startupsfounded by SuccessfulEmployee is 0.09
+The p-value of the difference between estimated probability of Success estimated by male respondents and female respondents for startups founded by SuccessfulFounder is 0.04
+The p-value of the difference between estimated probability of Success estimated by male respondents and female respondents for startupsfounded by FemaleFailedFounder is 0.08
+The p-value of the difference between estimated probability of Success for startups founded by SuccessfulEmployee and FailedFounder is 0.03.
+The p-value of the difference between estimated probability of Success for star-tups founded by SuccessfulEmployee and FemaleFailedFounder is 0.08
+The p-value ofthe difference between estimated probability of Success for startups founded bySuccessfulEmployee and FailedFounder as estimated by Female respondents is0.06.
+The p-value of the difference between estimated probability of Success for startups founded by Successful-Founder and FailedFounder as estimated by Female respondents is 0.08
+
+Females have estimated the probability of success for all startups as higher than that of estimates of males. In the case of founders who were employees at successful startups, the difference is statistically significant. This extends to the case of successful founders. Females estimate a higher probability of success in this case as well. The probability of success for founders that failed in their previous startup and those who were successful in their previous startup was significant in case of female respondents. The value of a successful startup rubs off the employees as well. Both male and female respondents felt that a startup founded by an employee of a successful startup would be more likely to succeed than one founded by a previously failed founder. As expected, the impact of success on the future is high. However, the impact seems to be higher for the employees than the founders.
 
 ```{r multievaluatesuccessgender, results='asis', null_prefix=TRUE,echo=FALSE, warning=FALSE,error=FALSE}
 
@@ -402,19 +410,21 @@ for (i in 1:4){
 
 ```
 
-SEE ABOVE THIS LINE.
 
 \subsubsection{Funding}
-```{r genderfunding1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxgenderfundingedu}This box plot shows the probablity of funding as estimated by males and females across male and female founders with different age levels.",message=FALSE,warning=FALSE}
+```{r genderfunding1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxgenderfundingback}This box plot shows the probablity of funding as estimated by males and females across male and female founders with different backgrounds.",message=FALSE,warning=FALSE}
 visalledu<-ggplot(mergedtest[mergedtest$Name=="SuccessfulEmployee" |mergedtest$Name=="SuccessfulFounder"| mergedtest$Name=="FailedFounder"| mergedtest$Name=="MaleFailedFounder" | mergedtest$Name=="FemaleFailedFounder",],aes(Name,Funding))
 visalledu<-visalledu+geom_boxplot(aes(colour = Gender))
 visalledu<-visalledu+labs(title ="Boxplot of estimated funding probability",x="Category",y="Probability of Funding")
 print(visalledu)
-#\caption{This box plot shows the probablity of success as estimated across males and females and different education levels}
-#\label{boxsuccessalleducation}
-#\end{figure}
+
 ```
-As visible in Figure \@ref(fig:boxgenderfundingedu), the estimation of the funding of the startup also varies as per the gender of the respondent. 
+
+As visible in Figure \@ref(fig:boxgenderfundingback), the estimation of the funding of the startup also varies as per the gender of the respondent. 
+
+The p-value of the difference between estimated probability of Funding estimated by male and female respondents for startups founded bySuccessfulFounder is 0.08.
+The p-value of the difference between estimated probability of Funding estimated by male and female respondents for startups founded byFemaleFailedFounder is 0.04
+The p-value of the difference between estimated probability of Funding for star-tups founded by SuccessfulFounder and FemaleFailedFounder is 0.05
 
 
 ```{r multievaluatefundinggender, results='asis', null_prefix=TRUE,echo=FALSE, warning=FALSE,error=FALSE}
@@ -469,19 +479,17 @@ for (i in 1:4){
 
 
 \subsubsection{Abandon}
-```{r genderabandon1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxgenderabandonedu}This box plot shows the probablity of abandoning as estimated by males and females across male and female founders with different education levels.",message=FALSE,warning=FALSE}
+```{r genderabandon1, echo=FALSE,fig=TRUE, fig.width=7,fig.height=4, fig.cap="\\label{fig:boxgenderabandonedu}This box plot shows the probablity of abandoning as estimated by males and females across male and female founders with different backgrounds.",message=FALSE,warning=FALSE}
 visalledu<-ggplot(mergedtest[mergedtest$Name=="SuccessfulEmployee" |mergedtest$Name=="SuccessfulFounder"| mergedtest$Name=="FailedFounder"| mergedtest$Name=="MaleFailedFounder" | mergedtest$Name=="FemaleFailedFounder",],aes(Name,Abandon))
 visalledu<-visalledu+geom_boxplot(aes(colour = Gender))
 visalledu<-visalledu+labs(title ="Boxplot of estimated abandoning probability.",x="Category",y="Probability of Abandon")
 print(visalledu)
-#\caption{This box plot shows the probablity of abandoning as estimated across males and females and different education levels}
-#\label{boxabandoningalleducation}
-#\end{figure}
+
 ```
 
 As visible in Figure \@ref(fig:boxgenderabandonedu), the estimation of the abandoning of the startup also varies as per the gender of the respondent. 
 
-
+However, there are no statistically significant differences in the probability of abandoning the startup irrespective of the background of the founder or the gender of the respondent.
 ```{r multievaluateabandongender, results='asis', null_prefix=TRUE,echo=FALSE, warning=FALSE,error=FALSE}
 
 parameter<-c("Success", "Funding", "Abandon") #as m
@@ -525,13 +533,19 @@ for (i in 1:4){
 ```
 
 
+
 \section{Conclusion}
-We see that while there is no difference in the perception of success, funding or abandonment of a startup based on whether the founders are CASE 1 or CASE 2, we see that the perception of males and females varies. 
+
+While conventional wisdom advocates that an entrepreneurs who has started in the past is valuable and the entire experience of starting up adds value to a founder, our research shows that the benefit of being an employee in a successful startup outweighs the benefit of being a founder, irrespective of whether the startup was successful or not. This is counter-intuitive because being a founder takes a higher level of risk and even in case of a favourable outcome, the succeess does not carry as strongly in case of an employee who takes far less risk. 
+
+This also points to another thing. People seem to perceive that an employee would also imbibe winnings ways or best practices and be able to import them to a future startup. People could feel that a founder from a successful startup might not be able to create that magic again, hinting at the role of luck in case of startups, in the minds of the respondents. 
+
+
 A practical import of this would be
-* If the product is targeted towards females, Vs males
-* If the investor who is evaluating the startup for funding is a male Vs Female
-* (IN case of abandon), then the founders should spend time showing commitment
-* This could explain some difference between the funding obtained by women
+*     If the product is targeted towards females, Vs males
+*     If the investor who is evaluating the startup for funding is a male Vs Female
+*     (IN case of abandon), then the founders should spend time showing commitment
+*     This could explain some difference between the funding obtained by women
 
 \section{Limitations}
 * We do not look at founders who were employees in a failed startup.
